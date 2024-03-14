@@ -16,8 +16,8 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (mentee_id => participants.id)
-#  fk_rails_...  (mentor_id => participants.id)
+#  fk_rails_...  (mentee_id => participations.id)
+#  fk_rails_...  (mentor_id => participations.id)
 #
 class Ranking < ApplicationRecord
   belongs_to :mentee

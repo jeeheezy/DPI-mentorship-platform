@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_14_185055) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_14_194117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,14 +23,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_14_185055) do
     t.index ["mentor_id"], name: "index_pairings_on_mentor_id"
   end
 
-  create_table "participants", force: :cascade do |t|
+  create_table "participations", force: :cascade do |t|
     t.bigint "program_id", null: false
     t.bigint "user_id", null: false
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["program_id"], name: "index_participants_on_program_id"
-    t.index ["user_id"], name: "index_participants_on_user_id"
+    t.index ["program_id"], name: "index_participations_on_program_id"
+    t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
   create_table "programs", force: :cascade do |t|
@@ -70,11 +70,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_14_185055) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "pairings", "participants", column: "mentee_id"
-  add_foreign_key "pairings", "participants", column: "mentor_id"
-  add_foreign_key "participants", "programs"
-  add_foreign_key "participants", "users"
+  add_foreign_key "pairings", "participations", column: "mentee_id"
+  add_foreign_key "pairings", "participations", column: "mentor_id"
+  add_foreign_key "participations", "programs"
+  add_foreign_key "participations", "users"
   add_foreign_key "programs", "users", column: "owner_id"
-  add_foreign_key "rankings", "participants", column: "mentee_id"
-  add_foreign_key "rankings", "participants", column: "mentor_id"
+  add_foreign_key "rankings", "participations", column: "mentee_id"
+  add_foreign_key "rankings", "participations", column: "mentor_id"
 end

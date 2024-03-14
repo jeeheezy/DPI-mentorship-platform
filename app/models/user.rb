@@ -25,4 +25,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  has_many :owned_programs, class_name: "Program", foreign_key: "owner_id"
+  has_many :participations, class_name: "Participation"
 end
