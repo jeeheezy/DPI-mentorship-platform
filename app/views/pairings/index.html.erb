@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Pairings</h1>
+
+<div id="pairings">
+  <% @pairings.each do |pairing| %>
+    <%= render pairing %>
+    <p>
+      <%= link_to "Show this pairing", pairing %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New pairing", new_pairing_path %>

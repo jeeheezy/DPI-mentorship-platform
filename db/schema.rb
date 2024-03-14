@@ -10,5 +10,71 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_14_185055) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "pairings", force: :cascade do |t|
+    t.bigint "mentor_id", null: false
+    t.bigint "mentee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mentee_id"], name: "index_pairings_on_mentee_id"
+    t.index ["mentor_id"], name: "index_pairings_on_mentor_id"
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.bigint "program_id", null: false
+    t.bigint "user_id", null: false
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_participants_on_program_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.string "name"
+    t.bigint "owner_id", null: false
+    t.text "description"
+    t.string "banner_image"
+    t.string "support_contact"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_programs_on_owner_id"
+  end
+
+  create_table "rankings", force: :cascade do |t|
+    t.bigint "mentee_id", null: false
+    t.bigint "mentor_id", null: false
+    t.integer "rank"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mentee_id"], name: "index_rankings_on_mentee_id"
+    t.index ["mentor_id"], name: "index_rankings_on_mentor_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "username"
+    t.text "bio"
+    t.string "pic"
+    t.string "preferred_timezone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "pairings", "participants", column: "mentee_id"
+  add_foreign_key "pairings", "participants", column: "mentor_id"
+  add_foreign_key "participants", "programs"
+  add_foreign_key "participants", "users"
+  add_foreign_key "programs", "users", column: "owner_id"
+  add_foreign_key "rankings", "participants", column: "mentee_id"
+  add_foreign_key "rankings", "participants", column: "mentor_id"
 end

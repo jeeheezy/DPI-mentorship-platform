@@ -1,0 +1,42 @@
+<%= form_with(model: program) do |form| %>
+  <% if program.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(program.errors.count, "error") %> prohibited this program from being saved:</h2>
+
+      <ul>
+        <% program.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :owner_id, style: "display: block" %>
+    <%= form.text_field :owner_id %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :banner_image, style: "display: block" %>
+    <%= form.text_field :banner_image %>
+  </div>
+
+  <div>
+    <%= form.label :support_contact, style: "display: block" %>
+    <%= form.text_field :support_contact %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
