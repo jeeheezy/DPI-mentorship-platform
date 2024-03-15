@@ -27,5 +27,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :owned_programs, class_name: "Program", foreign_key: "owner_id"
-  has_many :participations, class_name: "Participation"
+  has_many :participations
+
+  has_many :involved_programs, through: :participations, source: :program
 end

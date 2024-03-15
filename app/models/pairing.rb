@@ -19,6 +19,8 @@
 #  fk_rails_...  (mentor_id => participations.id)
 #
 class Pairing < ApplicationRecord
-  belongs_to :mentor
-  belongs_to :mentee
+  belongs_to :mentor, class_name: "Participation"
+  belongs_to :mentee, class_name: "Participation"
+
+  belongs_to :programs, through: :mentor
 end

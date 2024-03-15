@@ -20,6 +20,8 @@
 #  fk_rails_...  (mentor_id => participations.id)
 #
 class Ranking < ApplicationRecord
-  belongs_to :mentee
-  belongs_to :mentor
+  belongs_to :mentee_participation, class_name: "Participation", foreign_key: "mentee_id"
+  belongs_to :mentor_participation, class_name: "Participation", foreign_key: "mentor_id"
+
+  has_one :program, through: :mentee_participation
 end

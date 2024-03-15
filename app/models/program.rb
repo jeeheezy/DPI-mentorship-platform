@@ -21,4 +21,10 @@
 #
 class Program < ApplicationRecord
   belongs_to :owner, class_name: "User"
+  has_many :participations
+
+  has_many :participants, through: :participations, source: :user
+  has_many :mentor_pairings, through: :participations, source: :pairings_as_mentors
+  # can scope this down for pairings where mentee_id is not nil for valid pairings
+  has_many :mentor_rankings, through: :participations, source: :rankings
 end
