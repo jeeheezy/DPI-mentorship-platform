@@ -24,4 +24,14 @@ class Ranking < ApplicationRecord
   belongs_to :mentor_participation, class_name: "Participation", foreign_key: "mentor_id"
 
   has_one :program, through: :mentee_participation
+
+  validate :same_program
+
+  private
+
+  def same_program
+    unless mentor_participation.program == mentee_participation.program
+      errors.add(:base, 'A ranking cannot be made outside program')
+    end
+  end
 end

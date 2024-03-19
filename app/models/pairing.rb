@@ -20,7 +20,18 @@
 #
 class Pairing < ApplicationRecord
   belongs_to :mentor, class_name: "Participation"
-  belongs_to :mentee, class_name: "Participation"
+  belongs_to :mentee, class_name: "Participation", optional: true
 
-  belongs_to :programs, through: :mentor
+  has_one :program, through: :mentor, source: :program
+
+  validates :mentor_id, presence: true
+  validate :same_program, on: :update
+
+  private
+
+  def same_program
+    unless mentor.program == mentee.program
+      errors.add(:base, 'A pairing cannot be made outside program')
+    end
+  end
 end

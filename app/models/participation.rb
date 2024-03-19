@@ -20,6 +20,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Participation < ApplicationRecord
+  enum role: { mentor: "mentor", mentee: "mentee", admin: "admin" }
   belongs_to :program
   belongs_to :user
 

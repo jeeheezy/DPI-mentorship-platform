@@ -26,8 +26,18 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :username, uniqueness: true, presence: true 
+  validates :email, uniqueness: true, presence: true
+  validates :bio, presence: true
+
+  enum preferred_timezone: { est:"EST", cst:"CST", mst:"MST", pst:"PST", akst:"AKST", hst:"HST" }
+  # for Eastern Standard Time, Central Standard Time, Mountain Standard Time, Pacific Standard Time, Alaska Standard Time, and Hawaii-Aleutian Standard Time
   has_many :owned_programs, class_name: "Program", foreign_key: "owner_id"
   has_many :participations
+
+  has_many :mentee_participations, -> { mentee }, foreign_key: :user_id, class_name: "Participation" 
+  has_many :mentor_participations, -> { mentor }, foreign_key: :user_id, class_name: "Participation"
+  has_many :admin_participations, -> { admin }, foreign_key: :user_id, class_name: "Participation"
 
   has_many :involved_programs, through: :participations, source: :program
 end
