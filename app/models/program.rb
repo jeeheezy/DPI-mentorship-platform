@@ -20,10 +20,9 @@
 #  fk_rails_...  (owner_id => users.id)
 #
 class Program < ApplicationRecord
-  validates :name presence: true
+  validates :name, presence: true
   validates :description, presence: true
   validates :support_contact, presence: true
-
 
   belongs_to :owner, class_name: "User"
   has_many :participations

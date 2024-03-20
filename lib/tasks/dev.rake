@@ -75,13 +75,13 @@ unless Rails.env.production?
       mentee_participations_for_ranking = Participation.where(role: "mentee")
       mentee_participations_for_ranking.each do |participation|
         mentor_participations = Participation.where(role:"mentor", program_id: participation.program)
-        mentor = mentor_participations.sample
         if rand < 0.8
           3.times do |i|
+            mentor = mentor_participations.sample
             Ranking.create(
               mentee_participation: participation,
               mentor_participation: mentor,
-              rank: i
+              rank: i + 1
             )
             mentor_participations = mentor_participations.where.not(id: mentor.id)
           end
@@ -104,7 +104,6 @@ unless Rails.env.production?
       mentee_participations.each do |participation|
         available_pairings = Pairing.joins("INNER JOIN participations ON participations.id = pairings.mentor_id")
         .where(mentee_id: nil, participations: { program_id: participation.program })
-        # available_pairings = Pairing.where(mentee_id: nil)
         if rand < 0.5
           staged_pairing = available_pairings.sample
           staged_pairing.update(

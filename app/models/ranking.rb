@@ -25,6 +25,14 @@ class Ranking < ApplicationRecord
 
   has_one :program, through: :mentee_participation
 
+  has_one :owner, through: :mentee_participation, source: :user
+  has_one :recipient, through: :mentor_participation, source: :user
+
+  # validating for combination of mentor_id and mentee_id since while they can be duplicate while existing separately
+  # (e.g. 2 mentees can give the same mentor a rank even if they are in the same program),
+  # the combination cannot be duplicate (i.e. a mentee within a program cannot give a mentor in the program more than one rank)
+  validates :mentor_id, uniqueness: { scope: :mentee_id }
+  validates :rank, presence: true # if mentee chooses not to rank, there would be no ranking created
   validate :same_program
 
   private

@@ -24,7 +24,10 @@ class Pairing < ApplicationRecord
 
   has_one :program, through: :mentor, source: :program
 
-  validates :mentor_id, presence: true
+  has_one :mentee_user, through: :mentee, source: :user
+  has_one :mentor_user, through: :mentor, source: :user
+
+  validates :mentee_id, uniqueness: { allow_nil: true }
   validate :same_program, on: :update
 
   private

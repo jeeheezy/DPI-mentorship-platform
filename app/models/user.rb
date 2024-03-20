@@ -40,4 +40,11 @@ class User < ApplicationRecord
   has_many :admin_participations, -> { admin }, foreign_key: :user_id, class_name: "Participation"
 
   has_many :involved_programs, through: :participations, source: :program
+
+  has_many :pairings_as_mentees, through: :mentee_participations
+  has_many :pairings_as_mentors, through: :mentor_participations
+  # scoped associations seems to have same effect as using just participations since it's naturally limited by the source
+
+  has_many :rankings, through: :mentee_participations
+  has_many :received_rankings, through: :mentor_participations
 end
