@@ -1,27 +1,14 @@
-<div id="<%= dom_id program %>">
-  <p>
-    <strong>Name:</strong>
-    <%= program.name %>
-  </p>
+<!-- <%= link_to programs_path do%> possibly keep this in here to make the render partial a link -->
+  <div class="card" style="width: 18rem;">
+    <img src="<%= program.banner_image %>" class="card-img-top" alt="<%= program.name %> banner image">
+    <div class="card-body">
+      <h5 class="card-title"><%= program.name %></h5>
+      <p class="card-text"><%= program.description %></p>
+    </div>
+    <div class="card-body">
+      <%= link_to "#{program.owner.username}", user_path(program.owner.id) ,class:"card-link" %>
+      <%= mail_to "#{program.support_contact}", "#{program.support_contact}", subject: "Questions/Support regarding #{program.name}", encode: "true", class: "card-link" %>
+    </div>
+  </div>
+<!-- <% end %> -->
 
-  <p>
-    <strong>Owner:</strong>
-    <%= program.owner_id %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= program.description %>
-  </p>
-
-  <p>
-    <strong>Banner image:</strong>
-    <%= program.banner_image %>
-  </p>
-
-  <p>
-    <strong>Support contact:</strong>
-    <%= program.support_contact %>
-  </p>
-
-</div>

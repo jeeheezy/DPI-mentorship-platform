@@ -1,10 +1,8 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Programs</h1>
 
 <div id="programs">
   <% @programs.each do |program| %>
-    <%= render program %>
+    <%= render program, locals: { program: program, id: program.id} %>
     <p>
       <%= link_to "Show this program", program %>
     </p>
