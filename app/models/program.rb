@@ -3,7 +3,6 @@
 # Table name: programs
 #
 #  id              :bigint           not null, primary key
-#  banner_image    :string
 #  description     :text
 #  name            :string
 #  support_contact :string

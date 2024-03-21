@@ -1,7 +1,6 @@
 <!-- <%= link_to programs_path do%> possibly keep this in here to make the render partial a link -->
   <div class="card">
-    <%= image_tag "banner_image.png", class:"card-img-top object-fit-cover", alt:"#{program.name} banner_image", height: "70rem" %>
-<!--    <img src="<%= program.banner_image %>" class="card-img-top" alt="<%= program.name %> banner image"> -->
+    <%= image_tag program.banner_image, class:"card-img-top object-fit-cover", alt:"#{program.name} banner_image", height: "70rem" if program.banner_image.attached?%>
     <div class="card-body">
       <h5 class="card-title"><%= program.name %></h5>
       <p class="card-text"><%= program.description %></p>

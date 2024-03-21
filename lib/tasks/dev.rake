@@ -35,7 +35,6 @@ unless Rails.env.production?
         Program.create(
           name: "#{program.capitalize} Cohort",
           description: "This is the program for the #{program} cohort.",
-          banner_image: "/assets/images/banner_image.png",
           owner_id: admin_alice.id,
           support_contact: admin_alice.email
         )
