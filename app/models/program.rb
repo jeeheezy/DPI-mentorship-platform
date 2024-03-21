@@ -24,6 +24,8 @@ class Program < ApplicationRecord
   validates :description, presence: true
   validates :support_contact, presence: true
 
+  has_one_attached :banner_image
+
   belongs_to :owner, class_name: "User"
   has_many :participations
 

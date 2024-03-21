@@ -1,12 +1,17 @@
 <!-- <%= link_to programs_path do%> possibly keep this in here to make the render partial a link -->
-  <div class="card" style="width: 18rem;">
-    <img src="<%= program.banner_image %>" class="card-img-top" alt="<%= program.name %> banner image">
+  <div class="card">
+    <%= image_tag "banner_image.png", class:"card-img-top object-fit-cover", alt:"#{program.name} banner_image", height: "70rem" %>
+<!--    <img src="<%= program.banner_image %>" class="card-img-top" alt="<%= program.name %> banner image"> -->
     <div class="card-body">
       <h5 class="card-title"><%= program.name %></h5>
       <p class="card-text"><%= program.description %></p>
     </div>
-    <div class="card-body">
+    <div class="card-footer">
+      Program owner: 
       <%= link_to "#{program.owner.username}", user_path(program.owner.id) ,class:"card-link" %>
+    </div>
+    <div class="card-footer">
+      Support contact:
       <%= mail_to "#{program.support_contact}", "#{program.support_contact}", subject: "Questions/Support regarding #{program.name}", encode: "true", class: "card-link" %>
     </div>
   </div>

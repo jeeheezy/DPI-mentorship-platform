@@ -31,6 +31,13 @@
     <%= form.text_field :banner_image %>
   </div>
 
+  <!-- TODO: change from user to program
+  <%= form_with model: @program, local: true do |form| %>
+    <%= form.file_field :banner_image %>
+    <%= form.submit %>
+  <% end %>
+  -- >
+
   <div>
     <%= form.label :support_contact, style: "display: block" %>
     <%= form.text_field :support_contact %>
