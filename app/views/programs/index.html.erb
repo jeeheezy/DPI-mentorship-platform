@@ -7,14 +7,11 @@
   <!-- TODO figure out how to shift create button down when on very small screen -->
 </div>
 
-<div class="container text-center">
+<div class="container">
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
   <% @programs.each do |program| %>
-    <div class="col">
+    <div class="col mb-4">
     <%= render program, locals: { program: program, id: program.id} %>
-    <p>
-      <%= link_to "Show this program", program %>
-    </p>
     </div>
   <% end %>
   </div>
