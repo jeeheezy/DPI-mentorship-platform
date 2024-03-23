@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg bg-body-secondary">
+<!-- TODO change color of navbar to better fit with DPI color scheme -->
   <div class="container">
     <%= link_to image_tag("dpi_logo.webp", alt: "DPI Logo", class: "navbar-brand mt-4", width:"200"), root_path %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +18,7 @@
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Profile
+              <%= current_user.username %>
             </a>
             <div class="dropdown-menu">
               <%= link_to 'Edit profile', edit_user_registration_path, class:"dropdown-item" %>

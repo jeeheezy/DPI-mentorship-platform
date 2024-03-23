@@ -24,6 +24,7 @@ class Program < ApplicationRecord
   validates :support_contact, presence: true
 
   has_one_attached :banner_image
+  # currently doesn't seem to support HEIC files, will need to look into that
 
   belongs_to :owner, class_name: "User"
   has_many :participations

@@ -3,7 +3,7 @@ class ProgramsController < ApplicationController
 
   # GET /programs or /programs.json
   def index
-    @programs = Program.all
+    @programs = Program.all.order(created_at: :asc)
   end
 
   # GET /programs/1 or /programs/1.json

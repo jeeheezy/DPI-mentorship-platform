@@ -1,10 +1,13 @@
-<p style="color: green"><%= notice %></p>
-
-<div class="container-fluid">
-<%= render @program %>
+<div class="hero-image">
+  <%= image_tag @program.banner_image, class:"hero-image" if @program.banner_image.attached?%>
+  <div class="hero-text">
+    <h1><%= @program.name%></h1>
+  </div>
 </div>
 
-<div>
+<div class="container">
+  <p><strong>About the program:</strong></p>
+  <p><%= @program.description%></p>
   <%= link_to "Edit this program", edit_program_path(@program) %> |
   <%= link_to "Back to programs", programs_path %>
 
