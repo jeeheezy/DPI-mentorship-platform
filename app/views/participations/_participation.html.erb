@@ -1,17 +1,13 @@
 <div id="<%= dom_id participation %>">
-  <p>
-    <strong>Program:</strong>
-    <%= participation.program_id %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= participation.user_id %>
-  </p>
-
-  <p>
-    <strong>Role:</strong>
-    <%= participation.role %>
-  </p>
-
+  <% participating_user = participation.user %>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= participating_user.username %></h5>
+      <p class="card-text"><%= participating_user.bio %></p>
+    </div>
+    <div class="card-footer">
+      Email:
+      <%= mail_to "#{participating_user.email}", "#{participating_user.email}", encode: "true", class: "card-link" %>
+    </div>
+  </div>
 </div>

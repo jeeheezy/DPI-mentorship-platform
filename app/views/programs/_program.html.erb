@@ -1,6 +1,8 @@
 <div class="card">
-  <%= image_tag program.banner_image, class:"card-img-top object-fit-cover", alt:"#{program.name} banner_image", height: "70rem" if program.banner_image.attached?%>
-  <div class="card-body" onclick=location.href='<%= program_path(program.id) %>' >
+  <div class="clickable" onclick="location.href='<%= program_path(program.id) %>'">
+    <%= image_tag(program.banner_image, class:"card-img-top object-fit-cover", alt:"#{program.name} banner_image", height: "70rem") if program.banner_image.attached? %>
+  </div>
+  <div class="card-body clickable" onclick="location.href='<%= program_path(program.id) %>'">
     <h5 class="card-title"><%= program.name %></h5>
     <p class="card-text"><%= program.description %></p>
   </div>

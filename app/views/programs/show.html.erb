@@ -12,4 +12,14 @@
   <%= link_to "Back to programs", programs_path %>
 
   <%= button_to "Destroy this program", @program, method: :delete %>
+
+  <div class="container mt-3">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+      <% @mentors.each do |mentor| %>
+        <div class="col mb-4">
+          <%= render partial: "participations/participation", locals: { participation: mentor, id: mentor.id} %>
+        </div>
+      <% end %>
+    </div>
+  <div>
 </div>
