@@ -32,7 +32,7 @@ class Ranking < ApplicationRecord
   # (e.g. 2 mentees can give the same mentor a rank even if they are in the same program),
   # the combination cannot be duplicate (i.e. a mentee within a program cannot give a mentor in the program more than one rank)
   validates :mentor_id, uniqueness: { scope: :mentee_id }
-  validates :rank, presence: true # if mentee chooses not to rank, there would be no ranking created
+  validates :rank, presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 5 } # if mentee chooses not to rank, there would be no ranking created
   validate :same_program
 
   private
