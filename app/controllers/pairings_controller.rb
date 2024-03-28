@@ -3,7 +3,8 @@ class PairingsController < ApplicationController
 
   # GET /pairings or /pairings.json
   def index
-    @pairings = Pairing.all
+    @pairings_as_mentees = current_user.pairings_as_mentees
+    @pairings_as_mentors = current_user.pairings_as_mentors
   end
 
   # GET /pairings/1 or /pairings/1.json

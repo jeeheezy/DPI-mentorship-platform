@@ -1,14 +1,33 @@
-<p style="color: green"><%= notice %></p>
+<% unless @pairings_as_mentees.empty? %>
+  <div class="container">
+    <h2 class="mb-0">My Mentors</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+    <% @pairings_as_mentees.each do |pairing| %>
+      <div class="col mb-4">
+      <%= render pairing, locals: { pairing: pairing, id: pairing.id} %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+<% end %>
 
-<h1>Pairings</h1>
+<% unless @pairings_as_mentors.empty? %>
+  <div class="container">
+    <h2 class="mb-0">My Mentees</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+    <% @pairings_as_mentors.each do |pairing| %>
+      <div class="col mb-4">
+      <%= render pairing, locals: { pairing: pairing, id: pairing.id} %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+<% end %>
 
-<div id="pairings">
-  <% @pairings.each do |pairing| %>
-    <%= render pairing %>
-    <p>
-      <%= link_to "Show this pairing", pairing %>
-    </p>
+<% if @pairings_as_mentees.empty? && @pairings_as_mentors.empty? %>
+  <% if current_user.mentee_participations.empty? && current_user.mentor_participations.empty? %>
+    <p>You are not currently participating in any programs as a mentor or mentee. Please join a program to be a mentor or mentee</p>
+  <% else %>
+    <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
   <% end %>
-</div>
-
-<%= link_to "New pairing", new_pairing_path %>
+<% end %>
