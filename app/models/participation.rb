@@ -31,4 +31,5 @@ class Participation < ApplicationRecord
   has_many :received_rankings, foreign_key: "mentor_id", class_name: "Ranking"
 
   validates :user_id, uniqueness: {scope: :program_id }
+  validates :role, presence: true
 end

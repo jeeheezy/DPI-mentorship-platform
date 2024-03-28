@@ -3,7 +3,7 @@
   <div class="card clickable-card">
     <div class="card-body">
       <h5 class="card-title"><%= participating_user.username %></h5>
-      <p class="card-text"><%= participating_user.bio %></p>
+      <p class="card-text"><%= participating_user.bio.truncate_words(10) %></p>
     </div>
     <div class="card-footer">
       Email:

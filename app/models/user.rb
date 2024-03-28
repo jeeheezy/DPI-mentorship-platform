@@ -29,6 +29,7 @@ class User < ApplicationRecord
   validates :username, uniqueness: true, presence: true 
   validates :email, uniqueness: true, presence: true
   validates :bio, presence: true
+  validates :preferred_timezone, presence: true
 
   has_one_attached :avatar
 
