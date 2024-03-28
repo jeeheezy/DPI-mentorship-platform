@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card clickable-card">
   <div class="clickable" onclick="location.href='<%= program_path(program.id) %>'">
     <%= image_tag(program.banner_image, class:"card-img-top object-fit-cover", alt:"#{program.name} banner_image", height: "70rem") if program.banner_image.attached? %>
   </div>
