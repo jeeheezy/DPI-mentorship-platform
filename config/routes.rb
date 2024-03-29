@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   root "programs#index"
   resources :rankings
   resources :pairings
-  resources :participations
+  resources :participations do
+    resources :rankings, only: %i[create destroy update]
+  end
   resources :programs
   devise_for :users
 

@@ -17,7 +17,7 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
       <% @mentors.each do |mentor| %>
         <div class="col mb-4">
-          <%= render partial: "participations/participation", locals: { participation: mentor, id: mentor.id} %>
+          <%= render partial: "participations/participation", locals: { participation: mentor, id: mentor.id } %>
         </div>
       <% end %>
     </div>
@@ -26,12 +26,11 @@
 
 <!-- leaving some weird white space unless I set html height:100% or body height:100vh -->
 <div class="sticky-bottom bg-body-secondary">
-  <div class="container d-flex justify-content-between">
-    <div class="d-flex justify-content-around flex-fill">
+  <div class="container">
+    <div class="d-flex flex-row justify-content-around flex-fill">
       <p class="text-center py-5">Hello</p>
       <p class="text-center py-5">World</p>
       <p class="text-center py-5">Test</p>
     </div>
-    <button>Submit</button>
   </div>
 </div>
