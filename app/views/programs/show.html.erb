@@ -37,6 +37,7 @@
 </div>
 
 <!-- leaving some weird white space unless I set html height:100% or body height:100vh -->
+<% if @participation != nil %>
 <div class="sticky-bottom bg-body-secondary">
   <div class="container">
     <div class="d-flex flex-row justify-content-around flex-fill">
@@ -55,6 +56,7 @@
     </div>
   </div>
 </div>
+<% end %>
 
 <!--
 <%= render partial: "rankings/form", locals: { ranking: @ranking} %>

@@ -12,7 +12,9 @@ class ProgramsController < ApplicationController
     @mentees = @program.participations.where(role: "mentee")
     @ranking = Ranking.new
     @participation = @program.participations.find_by(user_id: current_user.id, role: "mentee")
-    @rankings = 5.times.map { @participation.rankings.build }
+    if @participation != nil
+      @rankings = 5.times.map { @participation.rankings.build }
+    end
     # TODO remove this ranking here once I'm done with nested associations
   end
 
