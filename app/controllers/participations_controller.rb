@@ -13,6 +13,8 @@ class ParticipationsController < ApplicationController
   # GET /participations/new
   def new
     @participation = Participation.new
+    @participation.program_id = params[:program_id]
+    @participation.user_id = current_user.id
   end
 
   # GET /participations/1/edit
@@ -22,14 +24,18 @@ class ParticipationsController < ApplicationController
   # POST /participations or /participations.json
   def create
     @participation = Participation.new(participation_params)
-
-    respond_to do |format|
-      if @participation.save
-        format.html { redirect_to participation_url(@participation), notice: "Participation was successfully created." }
-        format.json { render :show, status: :created, location: @participation }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @participation.errors, status: :unprocessable_entity }
+    # TODO need to create logic for those that are joining as mentors to specify how many mentees they can take on
+    if @participation.role == "mentor"
+      redirect_to new_pairing_url 
+    else
+      respond_to do |format|
+        if @participation.save
+          format.html { redirect_to participation_url(@participation), notice: "Participation was successfully created." }
+          format.json { render :show, status: :created, location: @participation }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @participation.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

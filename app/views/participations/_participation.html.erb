@@ -9,5 +9,30 @@
       Email:
       <%= mail_to "#{participating_user.email}", "#{participating_user.email}", encode: "true", class: "card-link" %>
     </div>
+    <% if participation.role == "mentor" %>
+      <% current_pairings = participation.pairings_as_mentors.where.not(mentee_id: nil) %>
+      <% if current_pairings.count > 0 %>
+        <div class="card-footer">
+          Current mentees: 
+          <% current_pairings.each_with_index do |pairing, i| %>
+            <% if i > 0 %>
+            |
+            <% end %>
+            <%= pairing.mentee_user.username %> 
+          <% end %>
+        </div>
+      <% end %>
+      <div class="card-footer">
+        Available mentee spots left: <%= participation.pairings_as_mentors.where(mentee_id: nil).count %>
+      </div>
+    <% end %>
+    <% if participation.role == "mentee" %>
+      <% pairing = participation.pairings_as_mentees.first %>
+      <% if pairing != nil %>
+        <div class="card-footer">
+          Mentor: <%= pairing.mentor_user.username %>
+        </div>
+      <% end %>
+    <% end %>
   </div>
 </div>

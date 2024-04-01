@@ -1,12 +1,13 @@
-<div id="<%= dom_id pairing %>">
-  <p>
-    <strong>Mentor:</strong>
-    <%= pairing.mentor_id %>
-  </p>
 
-  <p>
-    <strong>Mentee:</strong>
-    <%= pairing.mentee_id %>
-  </p>
+  <div class="card clickable-card">
+    <div class="card-body">
+      <h5 class="card-title"><%= user.username %></h5>
+      <p class="card-text"><%= user.bio.truncate_words(10) %></p>
+    </div>
+    <div class="card-footer">
+      Email:
+      <%= mail_to "#{user.email}", "#{user.email}", encode: "true", class: "card-link" %>
+    </div>
+  </div>
 
-</div>
+

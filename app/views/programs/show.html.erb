@@ -9,7 +9,8 @@
   <p><strong>About the program:</strong></p>
   <p><%= @program.description %></p>
   <%= link_to "Edit this program", edit_program_path(@program) %> |
-  <%= link_to "Back to programs", programs_path %>
+  <%= link_to "Back to programs", programs_path %> |
+  <%= link_to "Join this program", new_participation_path(program_id: @program.id) %>
 
   <%= button_to "Destroy this program", @program, method: :delete %>
 

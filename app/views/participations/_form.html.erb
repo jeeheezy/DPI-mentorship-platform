@@ -11,19 +11,12 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :program_id, style: "display: block" %>
-    <%= form.text_field :program_id %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
+  <%= form.hidden_field :program_id %>
+  <%= form.hidden_field :user_id %>
 
   <div>
     <%= form.label :role, style: "display: block" %>
-    <%= form.text_field :role %>
+    <%= form.select :role, options_for_select(Participation.roles), prompt: "Choose a role" %>
   </div>
 
   <div>

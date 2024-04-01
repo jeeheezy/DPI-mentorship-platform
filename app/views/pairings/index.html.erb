@@ -1,10 +1,11 @@
 <% unless @pairings_as_mentees.empty? %>
   <div class="container">
-    <h2 class="mb-0">My Mentors</h2>
+    <h2 class="mb-0 py-3">My Mentors</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
     <% @pairings_as_mentees.each do |pairing| %>
       <div class="col mb-4">
-      <%= render pairing, locals: { pairing: pairing, id: pairing.id} %>
+        <% @mentor_user = pairing.mentor_user %>
+        <%= render partial: "pairings/pairing", locals: { user: @mentor_user } %>
       </div>
     <% end %>
     </div>
@@ -13,12 +14,15 @@
 
 <% unless @pairings_as_mentors.empty? %>
   <div class="container">
-    <h2 class="mb-0">My Mentees</h2>
+    <h2 class="mb-0 py-3">My Mentees</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
     <% @pairings_as_mentors.each do |pairing| %>
-      <div class="col mb-4">
-      <%= render pairing, locals: { pairing: pairing, id: pairing.id} %>
-      </div>
+      <% if not pairing.mentee_id.nil? %>
+        <div class="col mb-4">
+            <% @mentee_user = pairing.mentee_user %>
+            <%= render partial: "pairings/pairing", locals: { user: @mentee_user } %>
+        </div>
+      <% end %>
     <% end %>
     </div>
   </div>
