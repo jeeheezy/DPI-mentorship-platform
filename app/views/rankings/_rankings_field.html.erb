@@ -1,7 +1,7 @@
 <% rankings.each_with_index do |ranking, index| %>
 	<div class="ranking-field">
-	  <%= label_tag "ranking[#{index}][mentor_id]", "Rank #{index + 1}" %>
-		<% available_options = mentor_options.reject { |option| @rankings.any? { |r| r.mentor_id == option[1].to_i } } %>
-    <%= select_tag "ranking[#{index}][mentor_id]", options_for_select(available_options), prompt: 'Select Mentor' %>
+		<%= label_tag "ranking[#{index}][mentor_id]", "Rank #{index + 1}" %>
+		<% available_options = mentor_options(program).reject { |option| rankings.any? { |r| r.mentor_id == option[1].to_i } } %>
+		<%= select_tag "ranking[#{index}][mentor_id]", options_for_select(available_options), prompt: 'Select Mentor' %>
 	</div>
 <% end %>

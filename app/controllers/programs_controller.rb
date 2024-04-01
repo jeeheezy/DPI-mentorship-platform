@@ -10,12 +10,10 @@ class ProgramsController < ApplicationController
   def show
     @mentors = @program.participations.where(role: "mentor")
     @mentees = @program.participations.where(role: "mentee")
-    @ranking = Ranking.new
     @participation = @program.participations.find_by(user_id: current_user.id, role: "mentee")
     if @participation != nil
       @rankings = 5.times.map { @participation.rankings.build }
     end
-    # TODO remove this ranking here once I'm done with nested associations
   end
 
   # GET /programs/new
