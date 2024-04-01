@@ -1,5 +1,5 @@
 class ProgramsController < ApplicationController
-  before_action :set_program, only: %i[ show edit update destroy create_rankings update_rankings]
+  before_action :set_program, only: %i[ show edit update destroy]
 
   # GET /programs or /programs.json
   def index
@@ -9,6 +9,11 @@ class ProgramsController < ApplicationController
   # GET /programs/1 or /programs/1.json
   def show
     @mentors = @program.participations.where(role: "mentor")
+    @mentees = @program.participations.where(role: "mentee")
+    @ranking = Ranking.new
+    @participation = @program.participations.find_by(user_id: current_user.id, role: "mentee")
+    @rankings = 5.times.map { @participation.rankings.build }
+    # TODO remove this ranking here once I'm done with nested associations
   end
 
   # GET /programs/new
@@ -58,20 +63,6 @@ class ProgramsController < ApplicationController
     end
   end
 
-  def create_rankings
-    @participation = Participation.find_by(program_id: @program.id, user_id: current_user.id, role: 'mentee')
-    @rankings = @participation.rankings.new()
-  end
-
-  def update_rankings
-    @participation = Participation.find_by(program_id: @program.id, user_id: current_user.id, role: 'mentee')
-    if @participation.rankings.update(rankings_params)
-      redirect_to @participation.program, notice: 'Rankings updated successfully.'
-    else
-      render :show
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_program
@@ -81,9 +72,5 @@ class ProgramsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def program_params
       params.require(:program).permit(:name, :owner_id, :description, :banner_image, :support_contact)
-    end
-
-    def rankings_params
-      params.require(:participation).permit(rankings_attributes: [:id, :mentor_id, :rank, :_destroy])
     end
 end

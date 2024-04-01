@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   root "programs#index"
   resources :rankings
   resources :pairings
-  resources :participations do
+  resources :participations 
+  resources :programs do
     resources :rankings, only: %i[create destroy update]
   end
-  resources :programs
   devise_for :users
 
   get ":username" => "users#show", as: :user
