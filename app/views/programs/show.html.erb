@@ -40,12 +40,12 @@
 <% if @participation != nil %>
 <div class="sticky-bottom bg-body-secondary">
   <div class="container">
-      <%= form_tag program_ranking_path(@program), class: "d-flex flex-row justify-content-around py-3", method: :post do %>
-        <div id="rankings" class= "d-flex flex-row justify-content-around">
-          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
-        </div>
-        <%= submit_tag 'Submit Rankings' %>
-      <% end %>
+    <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-row justify-content-around py-3", method: :post do %>
+      <div id="rankings" class= "d-flex flex-row justify-content-around">
+        <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
+      </div>
+      <%= submit_tag 'Submit Rankings' %>
+    <% end %>
   </div>
 </div>
 <% end %>
