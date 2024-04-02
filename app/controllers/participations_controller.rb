@@ -23,13 +23,21 @@ class ParticipationsController < ApplicationController
 
   # POST /participations or /participations.json
   def create
-    @participation = Participation.new(participation_params)
-    # TODO need to create logic for those that are joining as mentors to specify how many mentees they can take on
-    if @participation.role == "mentor"
-      redirect_to new_pairing_url 
-    else
+    ActiveRecord::Base.transaction do 
+      # TODO need to create logic for those that are joining as mentors to specify how many mentees they can take on
+      @participation = Participation.new(participation_params.except(:pairings))
       respond_to do |format|
         if @participation.save
+          if @participation.mentor?
+            availability = participation_params[:pairings].to_i
+            if availability < 1 || availability > 3
+              raise ArgumentError, "Availability within constrained number"
+            else 
+              availability.times do
+                Pairing.create!(mentor_id: @participation.id)
+              end
+            end
+          end  
           format.html { redirect_to participation_url(@participation), notice: "Participation was successfully created." }
           format.json { render :show, status: :created, location: @participation }
         else
@@ -38,9 +46,21 @@ class ParticipationsController < ApplicationController
         end
       end
     end
+    # TODO need to find a way to display the messages 
+    rescue ArgumentError => e
+      respond_to do |format|
+        format.html { render :new, notice: e.message }
+        format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: e.message, status: :unprocessable_entity }
+      end
   end
 
   # PATCH/PUT /participations/1 or /participations/1.json
+  # TODO determine how to delete pairings if number they can take on changes
   def update
     respond_to do |format|
       if @participation.update(participation_params)
@@ -71,6 +91,6 @@ class ParticipationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def participation_params
-      params.require(:participation).permit(:program_id, :user_id, :role)
+      params.require(:participation).permit(:program_id, :user_id, :role, :pairings)
     end
 end

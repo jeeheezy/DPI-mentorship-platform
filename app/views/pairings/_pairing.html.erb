@@ -1,5 +1,8 @@
 
   <div class="card clickable-card">
+    <div class="card-header">
+      Program: <%= link_to pairing.program.name, program_path(pairing.program.id) %>
+    </div>
     <div class="card-body">
       <h5 class="card-title"><%= user.username %></h5>
       <p class="card-text"><%= user.bio.truncate_words(10) %></p>

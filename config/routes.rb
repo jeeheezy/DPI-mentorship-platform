@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "programs#index"
+  root "home#index"
   # resources :rankings
   resources :pairings
   resources :participations 

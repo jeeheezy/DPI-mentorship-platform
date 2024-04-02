@@ -24,7 +24,7 @@ class Participation < ApplicationRecord
   belongs_to :program
   belongs_to :user
 
-  has_many :pairings_as_mentors, foreign_key: "mentor_id", class_name: "Pairing"
+  has_many :pairings_as_mentors, foreign_key: "mentor_id", class_name: "Pairing", dependent: :destroy
   has_many :pairings_as_mentees, foreign_key: "mentee_id", class_name: "Pairing"
 
   has_many :rankings, foreign_key: "mentee_id", class_name: "Ranking"

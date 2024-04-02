@@ -22,7 +22,6 @@ class Programs::RankingsController < ApplicationController
 
 	private
 	def set_program
-    debugger
 		@program = Program.find(params[:program_id])
 	end
 
@@ -31,8 +30,7 @@ class Programs::RankingsController < ApplicationController
 	end
 
   def rankings_params
-    debugger
-    params.require(:ranking).permit(:mentor_id)
+    params.require(:ranking).permit(mentor_id:[])
     # params.require(:ranking).map { |rp| rp.permit(:mentor_id, :rank) }
   end
 end
@@ -40,3 +38,14 @@ end
 #<ActionController::Parameters {"authenticity_token"=>"1MtXFuwt8ZwKaUWHaBQsPlT1awDD5Qsp_sWu5L6wREekzui5dFfALpH4G11EAxy5z_QzePuFxAXkkonT6_RpbQ", 
 # "ranking"=>{"0"=>{"mentor_id"=>""}, "1"=>{"mentor_id"=>""}, "2"=>{"mentor_id"=>""}, "3"=>{"mentor_id"=>""}, "4"=>{"mentor_id"=>""}}, 
 # "commit"=>"Submit Rankings", "controller"=>"programs/rankings", "action"=>"create", "program_id"=>"1"} permitted: false>
+
+# ranking = [id, id, id, id]
+
+
+# array
+# for array index:
+# get ranking:
+# if ranking position and array index == 
+    # check mentor id
+        # if mentor_id different: change it
+    #

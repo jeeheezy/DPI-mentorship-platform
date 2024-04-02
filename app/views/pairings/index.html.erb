@@ -5,14 +5,15 @@
     <% @pairings_as_mentees.each do |pairing| %>
       <div class="col mb-4">
         <% @mentor_user = pairing.mentor_user %>
-        <%= render partial: "pairings/pairing", locals: { user: @mentor_user } %>
+        <%= render partial: "pairings/pairing", locals: { user: @mentor_user, pairing: pairing } %>
       </div>
     <% end %>
     </div>
   </div>
 <% end %>
 
-<% unless @pairings_as_mentors.empty? %>
+<% pairings_with_mentees = @pairings_as_mentors.where.not(mentee_id: nil) %>
+<% unless pairings_with_mentees.count == 0 %>
   <div class="container">
     <h2 class="mb-0 py-3">My Mentees</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
@@ -20,7 +21,7 @@
       <% if not pairing.mentee_id.nil? %>
         <div class="col mb-4">
             <% @mentee_user = pairing.mentee_user %>
-            <%= render partial: "pairings/pairing", locals: { user: @mentee_user } %>
+            <%= render partial: "pairings/pairing", locals: { user: @mentee_user, pairing: pairing } %>
         </div>
       <% end %>
     <% end %>
@@ -28,10 +29,13 @@
   </div>
 <% end %>
 
-<% if @pairings_as_mentees.empty? && @pairings_as_mentors.empty? %>
-  <% if current_user.mentee_participations.empty? && current_user.mentor_participations.empty? %>
-    <p>You are not currently participating in any programs as a mentor or mentee. Please join a program to be a mentor or mentee</p>
-  <% else %>
-    <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
-  <% end %>
+<% pairings_without_mentees = @pairings_as_mentors.where(mentee_id: nil) %>
+<% if @pairings_as_mentees.empty? && pairings_without_mentees.count > 0 %>
+  <div class="container">
+    <% if current_user.mentee_participations.empty? && current_user.mentor_participations.empty? %>
+      <p>You are not currently participating in any programs as a mentor or mentee. Please join a program to be a mentor or mentee</p>
+    <% else %>
+      <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
+    <% end %>
+  </div>
 <% end %>
