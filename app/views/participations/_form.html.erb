@@ -21,7 +21,7 @@
   </div>
 
   <%= form.label :pairings, "How many mentees are you willing to mentor?", style: "display: block" %>
-  <%= form.number_field :pairings, min: 1, max: 3 %>
+  <%= form.number_field :pairings, value: @participation.pairings_as_mentors.count , min: 1, max: 3 %>
 
   <div>
     <%= form.submit %>

@@ -10,9 +10,13 @@ class ProgramsController < ApplicationController
   def show
     @mentors = @program.participations.where(role: "mentor")
     @mentees = @program.participations.where(role: "mentee")
-    @participation = @program.participations.find_by(user_id: current_user.id, role: "mentee")
-    if @participation != nil
-      @rankings = 5.times.map { @participation.rankings.build }
+    @participation = @program.participations.find_by(user_id: current_user.id)
+    if @participation&.mentee?
+      if @participation.rankings.empty?
+        @rankings = 5.times.map { @participation.rankings.build }
+      else
+        @rankings = @participation.rankings.order(rank: :asc)
+      end
     end
   end
 

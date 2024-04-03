@@ -1,23 +1,72 @@
 class Programs::RankingsController < ApplicationController
-  before_action :set_program, only: %i[create update destroy]
-	before_action :set_participation
+  before_action :set_program, only: %i[create update]
+	before_action :set_participation, only: %i[create update]
 	
 	def create
-    rankings_params
-    debugger
-		@rankings = 5.times.map { @participation.rankings.build }
-    @ranking = Ranking.new()
+    mentor_id_array = rankings_params[:mentor_id]
+    non_empty_array = mentor_id_array.compact.reject(&:blank?)
+    Ranking.transaction do 
+      non_empty_array.each_with_index do |mentor_id, index|
+        raise ArgumentError, "The user you are trying to rank is not a mentor" unless Participation.find(mentor_id).mentor?
+        rank = index + 1
+        Ranking.create!(mentee_id: @participation.id, mentor_id: mentor_id, rank: rank)
+      end
+      respond_to do |format|
+        format.html { redirect_to program_url(@program), notice: "Ranking was successfully created." }
+        format.json { render :show, status: :created, location: @ranking }
+      end
+    end
+    rescue ArgumentError => e
+      respond_to do |format|
+        format.html { redirect_to program_url(@program), alert: e.message }
+        # format.html { redirect_to edit_participation_url(program_id: @participation.program_id), alert: e.message }
+        format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      respond_to do |format|
+        format.html { redirect_to program_url(@program), alert: e.message }
+        # TODO check what's being rendered in json and see how I should pass in error message
+        format.json { render json: e.message, status: :unprocessable_entity }
+      end
+      # 8, 7, 6
+      # 6, 2, 7
+      # Frank, Bob, Grace
+      # 4, 6, 8, 33
+      # 8, 7
+      # Heidi, Grace, Frank, TEST
   end
 
   def update
-    # currently ranks are not explicitly taken from params, but indexed
-    # do I need to permit rank?
-    debugger
-    if @participation.rankings.update(rankings_params)
-      redirect_to @participation.program, notice: 'Rankings updated successfully.'
-    else
-      render :show
+    # TODO remember to deal with deletion of all ranks if flattened array is 0
+    mentor_id_array = rankings_params[:mentor_id]
+    non_empty_array = mentor_id_array.compact.reject(&:blank?)
+    current_rankings = @participation.rankings
+    # do I need to check that the passed in values are mentor values?
+    # might be more effective if I keep transaction to update existing ranked records, but nested transactions have their own issues
+    Ranking.transaction do
+      current_rankings.destroy_all
+      non_empty_array.each_with_index do |mentor_id, index|
+        raise ArgumentError, "The user you are trying to rank is not a mentor" unless Participation.find(mentor_id).mentor?
+        rank = index + 1
+        Ranking.create!(mentee_id: @participation.id, mentor_id: mentor_id, rank: rank)
+      end
+      respond_to do |format|
+        format.html { redirect_to program_url(@program), notice: "Ranking was successfully created." }
+        format.json { render :show, status: :created, location: @ranking }
+      end
     end
+    rescue ArgumentError => e
+      respond_to do |format|
+        format.html { redirect_to program_url(@program), alert: e.message }
+        # format.html { redirect_to edit_participation_url(program_id: @participation.program_id), alert: e.message }
+        format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      respond_to do |format|
+        format.html { redirect_to program_url(@program), alert: e.message }
+        # TODO check what's being rendered in json and see how I should pass in error message
+        format.json { render json: e.message, status: :unprocessable_entity }
+      end
   end
 
 	private
@@ -40,7 +89,7 @@ end
 # "commit"=>"Submit Rankings", "controller"=>"programs/rankings", "action"=>"create", "program_id"=>"1"} permitted: false>
 
 # ranking = [id, id, id, id]
-
+# ["9", "7", "", "", ""]
 
 # array
 # for array index:

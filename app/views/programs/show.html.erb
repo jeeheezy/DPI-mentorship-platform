@@ -38,14 +38,23 @@
 </div>
 
 <!-- leaving some weird white space unless I set html height:100% or body height:100vh -->
-<% if @participation != nil %>
+<% if @participation&.mentee? %>
 <div class="sticky-bottom bg-body-secondary">
   <div class="container">
-    <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-row justify-content-around py-3", method: :post do %>
-      <div id="rankings" class= "d-flex">
-        <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
-      </div>
-      <%= submit_tag 'Submit Rankings' %>
+    <%if @participation.rankings.count == 0 %>
+      <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-row justify-content-around py-3", method: :post do %>
+        <div id="rankings" class= "d-flex">
+          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
+        </div>
+        <%= submit_tag 'Submit Rankings' %>
+      <% end %>
+    <% else %>
+      <%= form_tag program_update_rankings_path(@program), class: "d-flex flex-row justify-content-around py-3", method: :post do %>
+        <div id="rankings" class= "d-flex">
+          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
+        </div>
+        <%= submit_tag 'Submit Rankings' %>
+      <% end %>
     <% end %>
   </div>
 </div>

@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   resources :programs do
     # resources :rankings, only: %i[create destroy update]
     post "/create" => "programs/rankings#create", as: :create_rankings
-    patch "/update" => "programs/rankings#update", as: :update_rankings
+    # using post here instead of patch since for create I'm scorching earth and creating anew
+    post "/update" => "programs/rankings#update", as: :update_rankings
   end
   devise_for :users
 
