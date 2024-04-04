@@ -6,12 +6,12 @@
 #  bio                    :text
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  pic                    :string
+#  first_name             :string
+#  last_name              :string
 #  preferred_timezone     :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -26,7 +26,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :username, uniqueness: true, presence: true 
+  validates :first_name, presence: true 
+  validates :last_name, presence: true
   validates :email, uniqueness: true, presence: true
   validates :bio, presence: true
   validates :preferred_timezone, presence: true

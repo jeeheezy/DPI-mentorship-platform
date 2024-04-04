@@ -15,20 +15,20 @@ unless Rails.env.production?
     task({ :sample_data => :environment }) do
       p "Creating sample data"
 
-      usernames = ["Alice", "Bob", "Carol", "Dave", "Eve", "Frank", "Grace", "Heidi"]
-      usernames.each do |username|
+      first_names = ["Alice", "Bob", "Carol", "Dave", "Eve", "Frank", "Grace", "Heidi"]
+      first_names.each do |name|
         User.create(
-          email: "#{username}@example.com",
+          email: "#{name}@example.com",
           password: "password",
-          username: username.capitalize,
-          bio: "Hello, I am #{username.capitalize}.",
-          pic: "http://robohash.org/#{username.downcase}/?set=set4",
+          first_name: name.capitalize,
+          last_name: Faker::Name.last_name,
+          bio: "Hello, I am #{name.capitalize}.",
           preferred_timezone: User.preferred_timezones.keys.sample
         )
       end
       p "There are now #{User.count} users"
 
-      admin_alice = User.find_by(username: "Alice")
+      admin_alice = User.find_by(first_name: "Alice")
 
       programs = ["spring", "summer", "fall", "winter"]
       programs.each do |program|
@@ -42,7 +42,7 @@ unless Rails.env.production?
       p "There are now #{Program.count} programs."
 
       created_programs = Program.all
-      users_except_alice = User.where.not(username: "Alice")
+      users_except_alice = User.where.not(first_name: "Alice")
       # can't use offset here because the skipped record would get included when doing randomly order a few lines down
 
       created_programs.each do |program|

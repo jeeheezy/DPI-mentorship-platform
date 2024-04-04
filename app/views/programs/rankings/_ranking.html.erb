@@ -3,10 +3,10 @@
     <% participating_user = participation.user %>
     <div class="card clickable-card my-2">
       <div class="card-body">
-        <h5 class="card-title"><%= participating_user.username %></h5>
+        <h5 class="card-title"><%= participating_user.first_name %></h5>
         <% rankings = participation.rankings %>
         <% rankings.each do |ranking| %>
-          <p class="my-2">Rank <%= ranking.rank %>: <%= ranking.recipient.username%></p>
+          <p class="my-2">Rank <%= ranking.rank %>: <%= ranking.recipient.first_name%></p>
         <% end %>
       </div>
       <% if participation.mentor? %>
@@ -18,7 +18,7 @@
               <% if i > 0 %>
               |
               <% end %>
-              <%= pairing.mentee_user.username %> 
+              <%= pairing.mentee_user.first_name %> 
             <% end %>
           </div>
         <% end %>
@@ -40,7 +40,7 @@
         <% pairing = participation.pairings_as_mentees.first %>
         <% if pairing != nil %>
           <div class="card-footer">
-            Mentor: <%= pairing.mentor_user.username %>
+            Mentor: <%= pairing.mentor_user.first_name %>
           </div>
         <% end %>
       <% end %>

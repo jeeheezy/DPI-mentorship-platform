@@ -2,7 +2,7 @@
   <% participating_user = participation.user %>
   <div class="card clickable-card">
     <div class="card-body">
-      <h5 class="card-title"><%= participating_user.username %></h5>
+      <h5 class="card-title"><%= participating_user.first_name %></h5>
       <p class="card-text"><%= participating_user.bio.truncate_words(10) %></p>
     </div>
     <div class="card-footer">
@@ -18,7 +18,7 @@
             <% if i > 0 %>
             |
             <% end %>
-            <%= pairing.mentee_user.username %> 
+            <%= pairing.mentee_user.first_name %> 
           <% end %>
         </div>
       <% end %>
@@ -30,7 +30,7 @@
       <% pairing = participation.pairings_as_mentees.first %>
       <% if pairing != nil %>
         <div class="card-footer">
-          Mentor: <%= pairing.mentor_user.username %>
+          Mentor: <%= pairing.mentor_user.first_name %>
         </div>
       <% end %>
     <% end %>
