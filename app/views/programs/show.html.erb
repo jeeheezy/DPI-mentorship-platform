@@ -10,7 +10,8 @@
   <p><%= @program.description %></p>
   <%= link_to "Edit this program", edit_program_path(@program) %> |
   <%= link_to "Back to programs", programs_path %> |
-  <%= link_to "Join this program", new_participation_path(program_id: @program.id) %>
+  <%= link_to "Join this program", new_participation_path(program_id: @program.id) %> |
+  <%= link_to "Create pairings", program_rankings_index_path(@program) %>
 
   <%= button_to "Destroy this program", @program, method: :delete %>
 
@@ -49,8 +50,8 @@
         <%= submit_tag 'Submit Rankings' %>
       <% end %>
     <% else %>
-      <%= form_tag program_update_rankings_path(@program), class: "d-flex flex-row justify-content-around py-3", method: :post do %>
-        <div id="rankings" class= "d-flex">
+      <%= form_tag program_update_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
+        <div id="rankings" class= "d-flex flex-column flex-md-row justify-content-around">
           <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
         </div>
         <%= submit_tag 'Submit Rankings' %>

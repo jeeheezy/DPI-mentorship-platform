@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :participations 
   resources :programs do
     # resources :rankings, only: %i[create destroy update]
+    get "/index" => "programs/rankings#index", as: :rankings_index
     post "/create" => "programs/rankings#create", as: :create_rankings
     # using post here instead of patch since for create I'm scorching earth and creating anew
     post "/update" => "programs/rankings#update", as: :update_rankings

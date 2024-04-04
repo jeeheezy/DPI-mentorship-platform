@@ -1,7 +1,12 @@
 class Programs::RankingsController < ApplicationController
-  before_action :set_program, only: %i[create update]
-	before_action :set_participation, only: %i[create update]
+  before_action :set_program, only: %i[index create update]
+	before_action :set_current_user_participation, only: %i[create update]
 	
+  def index
+    @rankings = @program.mentee_rankings
+    @participations = @program.participations
+  end
+
 	def create
     mentor_id_array = rankings_params[:mentor_id]
     non_empty_array = mentor_id_array.compact.reject(&:blank?)
@@ -9,7 +14,7 @@ class Programs::RankingsController < ApplicationController
       non_empty_array.each_with_index do |mentor_id, index|
         raise ArgumentError, "The user you are trying to rank is not a mentor" unless Participation.find(mentor_id).mentor?
         rank = index + 1
-        Ranking.create!(mentee_id: @participation.id, mentor_id: mentor_id, rank: rank)
+        Ranking.create!(mentee_id: @current_user_participation.id, mentor_id: mentor_id, rank: rank)
       end
       respond_to do |format|
         format.html { redirect_to program_url(@program), notice: "Ranking was successfully created." }
@@ -19,13 +24,11 @@ class Programs::RankingsController < ApplicationController
     rescue ArgumentError => e
       respond_to do |format|
         format.html { redirect_to program_url(@program), alert: e.message }
-        # format.html { redirect_to edit_participation_url(program_id: @participation.program_id), alert: e.message }
         format.json { render json: { error: e.message }, status: :unprocessable_entity }
       end
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
         format.html { redirect_to program_url(@program), alert: e.message }
-        # TODO check what's being rendered in json and see how I should pass in error message
         format.json { render json: e.message, status: :unprocessable_entity }
       end
       # 8, 7, 6
@@ -40,7 +43,7 @@ class Programs::RankingsController < ApplicationController
     # TODO remember to deal with deletion of all ranks if flattened array is 0
     mentor_id_array = rankings_params[:mentor_id]
     non_empty_array = mentor_id_array.compact.reject(&:blank?)
-    current_rankings = @participation.rankings
+    current_rankings = @current_user_participation.rankings
     # do I need to check that the passed in values are mentor values?
     # might be more effective if I keep transaction to update existing ranked records, but nested transactions have their own issues
     Ranking.transaction do
@@ -48,7 +51,7 @@ class Programs::RankingsController < ApplicationController
       non_empty_array.each_with_index do |mentor_id, index|
         raise ArgumentError, "The user you are trying to rank is not a mentor" unless Participation.find(mentor_id).mentor?
         rank = index + 1
-        Ranking.create!(mentee_id: @participation.id, mentor_id: mentor_id, rank: rank)
+        Ranking.create!(mentee_id: @current_user_participation.id, mentor_id: mentor_id, rank: rank)
       end
       respond_to do |format|
         format.html { redirect_to program_url(@program), notice: "Ranking was successfully created." }
@@ -58,13 +61,11 @@ class Programs::RankingsController < ApplicationController
     rescue ArgumentError => e
       respond_to do |format|
         format.html { redirect_to program_url(@program), alert: e.message }
-        # format.html { redirect_to edit_participation_url(program_id: @participation.program_id), alert: e.message }
         format.json { render json: { error: e.message }, status: :unprocessable_entity }
       end
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
         format.html { redirect_to program_url(@program), alert: e.message }
-        # TODO check what's being rendered in json and see how I should pass in error message
         format.json { render json: e.message, status: :unprocessable_entity }
       end
   end
@@ -74,8 +75,8 @@ class Programs::RankingsController < ApplicationController
 		@program = Program.find(params[:program_id])
 	end
 
-	def set_participation
-		@participation = @program.participations.find_by(user_id: current_user.id, role: "mentee")
+	def set_current_user_participation
+		@current_user_participation = @program.participations.find_by(user_id: current_user.id, role: "mentee")
 	end
 
   def rankings_params

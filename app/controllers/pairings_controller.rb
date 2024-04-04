@@ -39,7 +39,7 @@ class PairingsController < ApplicationController
   def update
     respond_to do |format|
       if @pairing.update(pairing_params)
-        format.html { redirect_to pairing_url(@pairing), notice: "Pairing was successfully updated." }
+        format.html { redirect_to program_rankings_index_url(@pairing.program), notice: "Pairing was successfully updated." }
         format.json { render :show, status: :ok, location: @pairing }
       else
         format.html { render :edit, status: :unprocessable_entity }

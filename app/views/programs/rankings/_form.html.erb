@@ -1,0 +1,5 @@
+<%= form_with(model: pairing) do |form| %>
+  <% previous_value = pairing.mentee_id %>
+  <%= form.select "mentee_id", options_for_select(mentee_options(program), previous_value), prompt: "Select mentee"%>
+  <%= form.submit %>
+<% end %>
