@@ -29,13 +29,33 @@
   </div>
 <% end %>
 
-<% pairings_without_mentees = @pairings_as_mentors.where(mentee_id: nil) %>
-<% if @pairings_as_mentees.empty? && pairings_without_mentees.count > 0 %>
+
+
+
+<% if current_user.mentee_participations.empty? && current_user.mentor_participations.empty? %>
   <div class="container">
-    <% if current_user.mentee_participations.empty? && current_user.mentor_participations.empty? %>
-      <p>You are not currently participating in any programs as a mentor or mentee. Please join a program to be a mentor or mentee</p>
-    <% else %>
-      <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
-    <% end %>
+    <p>You are not currently participating in any programs as a mentor or mentee. Please join a program to be a mentor or mentee</p>
   </div>
+
+<% else %>
+  <% if current_user.mentee_participations.any? && current_user.mentor_participations.any? %>
+    <% if @pairings_as_mentees.empty? &&  @pairings_as_mentors.where(mentee_id: nil).any? %>
+      <div class="container">
+        <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
+      </div>
+    <% end %>
+  <% elsif current_user.mentee_participations.any? %>
+    <% if @pairings_as_mentees.empty? %>
+      <div class="container">
+        <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
+      </div>
+    <% end %>    
+  <% elsif current_user.mentor_participations.any? %>
+    <% if @pairings_as_mentors.where(mentee_id: nil).any? %>
+      <div class="container">
+        <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
+      </div>      
+    <% end %>
+  <% end %>
 <% end %>
+
