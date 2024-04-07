@@ -145,9 +145,13 @@
           </div>
           <!-- Devise Input for last_name end -->
           
-          <!-- Devise Input for avatar_image start -->
+          <!-- Devise Input for profile_picture start -->
+          <div class="form-group">
+            <%= f.label :profile_picture, style: "display:block" %>
+            <%= f.file_field :profile_picture %>
+          </div>
 
-          <!-- Devise Input for avatar_image end -->
+          <!-- Devise Input for profile_picture end -->
           
           <!-- Devise Input for bio start -->
           <div class="form-group">
@@ -165,7 +169,7 @@
 
             <%= f.label :bio %>
 
-            <%= f.text_field :bio, :class => bio_class, :placeholder => "Enter bio" %>
+            <%= f.text_area :bio, :class => bio_class, :placeholder => "Enter bio" %>
 
             <% if bio_was_invalid %>
               <% resource.errors.full_messages_for(:bio).each do |message| %>
@@ -193,7 +197,7 @@
 
             <%= f.label :preferred_timezone %>
 
-            <%= f.select :preferred_timezone, User.preferred_timezones.keys.map{ |key| [key, key] }, { selected: @user.preferred_timezone|| :draft }, { :class => preferred_timezone_class, :placeholder => "Enter your preferred timezone" } %>
+            <%= f.select :preferred_timezone, User.preferred_timezones.keys.map{ |key| [key.upcase, key] }, { selected: @user.preferred_timezone|| :draft }, { :class => preferred_timezone_class, :placeholder => "Enter your preferred timezone" } %>
 
             <% if preferred_timezone_was_invalid %>
               <% resource.errors.full_messages_for(:preferred_timezone).each do |message| %>

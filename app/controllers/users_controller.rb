@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   private
 
     def set_user
-      if params[:username]
-        @user = User.find_by!(username: params.fetch(:username))
+      if params[:user_id]
+        @user = User.find(params.fetch(:user_id))
       else
         @user = current_user
       end

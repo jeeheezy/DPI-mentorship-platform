@@ -30,11 +30,11 @@ class User < ApplicationRecord
   validates :last_name, presence: true
   validates :email, uniqueness: true, presence: true
   validates :bio, presence: true
-  validates :preferred_timezone, presence: true
+  validates :preferred_timezone, presence: true 
 
-  has_one_attached :avatar
+  has_one_attached :profile_picture
 
-  enum preferred_timezone: { est:"EST", cst:"CST", mst:"MST", pst:"PST", akst:"AKST", hst:"HST" }
+  enum preferred_timezone: { EST:"EST", CST:"CST", MST:"MST", PST:"PST", AKST:"AKST", HST:"HST" }
   # for Eastern Standard Time, Central Standard Time, Mountain Standard Time, Pacific Standard Time, Alaska Standard Time, and Hawaii-Aleutian Standard Time
   has_many :owned_programs, class_name: "Program", foreign_key: "owner_id"
   has_many :participations

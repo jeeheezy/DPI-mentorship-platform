@@ -13,7 +13,7 @@
 <% end %>
 
 <% pairings_with_mentees = @pairings_as_mentors.where.not(mentee_id: nil) %>
-<% unless pairings_with_mentees.count == 0 %>
+<% unless pairings_with_mentees.empty? %>
   <div class="container">
     <h2 class="mb-0 py-3">My Mentees</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
@@ -51,7 +51,7 @@
       </div>
     <% end %>    
   <% elsif current_user.mentor_participations.any? %>
-    <% if @pairings_as_mentors.where(mentee_id: nil).any? %>
+    <% if @pairings_as_mentors.where(mentee_id: nil).any? && pairings_with_mentees.empty? %>
       <div class="container">
         <p>No pairings have been made for the programs you are part of. Please reach out to an admin if you have questions on when pairings are made</p>
       </div>      

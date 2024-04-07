@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
   devise_for :users
 
-  get ":username" => "users#show", as: :user
+  get "/users/:user_id" => "users#show", as: :user
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
