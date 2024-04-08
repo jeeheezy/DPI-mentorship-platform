@@ -21,7 +21,7 @@
               <%= current_user.first_name %>
             </a>
             <div class="dropdown-menu">
-              <%= link_to 'Edit profile', edit_user_registration_path, class:"dropdown-item" %>
+              <%= link_to 'My Profile', user_path(current_user.id), class:"dropdown-item" %>
               <%= link_to 'Sign out', destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
             </div>
             <!-- TODO alter dropdown size or add more padding so on smaller screen size dropdown isn't covered-->

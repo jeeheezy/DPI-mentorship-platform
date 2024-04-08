@@ -1,7 +1,7 @@
 <div id="<%= dom_id participation %>">
   <% participating_user = participation.user %>
   <div class="card clickable-card">
-    <div class="card-body">
+    <div class="card-body clickable" onclick="location.href='<%= user_path(participating_user.id) %>'">
       <h5 class="card-title"><%= participating_user.first_name %></h5>
       <p class="card-text"><%= participating_user.bio.truncate_words(10) %></p>
     </div>
