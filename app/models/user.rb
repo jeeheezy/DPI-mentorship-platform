@@ -37,7 +37,7 @@ class User < ApplicationRecord
   enum preferred_timezone: { EST:"EST", CST:"CST", MST:"MST", PST:"PST", AKST:"AKST", HST:"HST" }
   # for Eastern Standard Time, Central Standard Time, Mountain Standard Time, Pacific Standard Time, Alaska Standard Time, and Hawaii-Aleutian Standard Time
   has_many :owned_programs, class_name: "Program", foreign_key: "owner_id"
-  has_many :participations
+  has_many :participations, dependent: :destroy
 
   has_many :mentee_participations, -> { mentee }, foreign_key: :user_id, class_name: "Participation" 
   has_many :mentor_participations, -> { mentor }, foreign_key: :user_id, class_name: "Participation"

@@ -32,7 +32,7 @@ class ProgramsController < ApplicationController
   # POST /programs or /programs.json
   def create
     @program = Program.new(program_params)
-
+    @program.owner_id = current_user.id
     respond_to do |format|
       if @program.save
         format.html { redirect_to program_url(@program), notice: "Program was successfully created." }
@@ -75,6 +75,6 @@ class ProgramsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def program_params
-      params.require(:program).permit(:name, :owner_id, :description, :banner_image, :support_contact)
+      params.require(:program).permit(:name, :description, :banner_image, :support_contact)
     end
 end

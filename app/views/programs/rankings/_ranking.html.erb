@@ -3,7 +3,17 @@
     <% participating_user = participation.user %>
     <div class="card clickable-card my-2">
       <div class="card-body">
-        <h5 class="card-title"><%= participating_user.first_name %></h5>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <h5 class="me-1 me-sm-2"><%= participating_user.first_name %> <%= participating_user.last_name%></h5>
+          <div class="d-flex flex-column flex-md-row gap-2">
+            <%= link_to edit_participation_path(participation), class: "btn btn-outline-success" do %>
+              <i class="fa-solid fa-pen-to-square"></i>
+            <% end %>
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              <i class="fa-solid fa-trash"></i>  
+            </button>
+          </div>
+        </div>
         <% rankings = participation.rankings %>
         <% rankings.each do |ranking| %>
           <p class="my-2">Rank <%= ranking.rank %>: <%= ranking.recipient.first_name%></p>
@@ -48,3 +58,21 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Participation?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the participation? All associated rankings and pairings will be destroyed.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <%= button_to "Delete Participation", participation_path(participation), method: :delete, class:"btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+</div>

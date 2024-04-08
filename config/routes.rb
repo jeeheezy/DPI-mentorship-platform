@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "home#index"
   # resources :rankings
   resources :pairings
-  resources :participations 
+  resources :participations, except: %i[index] 
   resources :programs do
     # resources :rankings, only: %i[create destroy update]
     get "/index" => "programs/rankings#index", as: :rankings_index

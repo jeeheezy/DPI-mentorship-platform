@@ -25,10 +25,10 @@ class Participation < ApplicationRecord
   belongs_to :user
 
   has_many :pairings_as_mentors, foreign_key: "mentor_id", class_name: "Pairing", dependent: :destroy
-  has_many :pairings_as_mentees, foreign_key: "mentee_id", class_name: "Pairing"
+  has_many :pairings_as_mentees, foreign_key: "mentee_id", class_name: "Pairing", dependent: :destroy
 
-  has_many :rankings, foreign_key: "mentee_id", class_name: "Ranking"
-  has_many :received_rankings, foreign_key: "mentor_id", class_name: "Ranking"
+  has_many :rankings, foreign_key: "mentee_id", class_name: "Ranking", dependent: :destroy
+  has_many :received_rankings, foreign_key: "mentor_id", class_name: "Ranking", dependent: :destroy
 
   validates :user_id, uniqueness: {scope: :program_id }
   validates :role, presence: true

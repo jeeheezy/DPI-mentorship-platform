@@ -13,8 +13,8 @@ class ParticipationsController < ApplicationController
   # GET /participations/new
   def new
     @participation = Participation.new
+    # TODO find way to change this so program_id can't be so easily changed
     @participation.program_id = params[:program_id]
-    @participation.user_id = current_user.id
   end
 
   # GET /participations/1/edit
@@ -25,6 +25,7 @@ class ParticipationsController < ApplicationController
   def create
     Participation.transaction do 
       @participation = Participation.new(participation_params.except(:pairings))
+      @participation.user_id = current_user.id
       respond_to do |format|
         if @participation.save!
           if @participation.mentor?
@@ -37,7 +38,7 @@ class ParticipationsController < ApplicationController
               end
             end
           end  
-          format.html { redirect_to participation_url(@participation), notice: "Participation was successfully created." }
+          format.html { redirect_to program_url(@participation.program), notice: "You have successfully joined this program." }
           format.json { render :show, status: :created, location: @participation }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -90,7 +91,7 @@ class ParticipationsController < ApplicationController
       end
       respond_to do |format|
         if @participation.update!(participation_params.except(:pairings))
-          format.html { redirect_to participation_url(@participation), notice: "Participation was successfully updated." }
+          format.html { redirect_to program_url(@participation.program), notice: "You have successfully joined this program." }
           format.json { render :show, status: :ok, location: @participation }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -113,10 +114,11 @@ class ParticipationsController < ApplicationController
  
   # DELETE /participations/1 or /participations/1.json
   def destroy
+    @program = @participation.program
     @participation.destroy
 
     respond_to do |format|
-      format.html { redirect_to participations_url, notice: "Participation was successfully destroyed." }
+      format.html { redirect_to program_rankings_index_url(@program), notice: "Participation was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -129,6 +131,7 @@ class ParticipationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def participation_params
-      params.require(:participation).permit(:program_id, :user_id, :role, :pairings)
+      params.require(:participation).permit(:program_id, :role, :pairings)
     end
+
 end
