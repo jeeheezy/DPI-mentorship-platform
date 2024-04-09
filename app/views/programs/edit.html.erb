@@ -1,10 +1,16 @@
-<h1>Editing program</h1>
+<div class="row">
+  <div class="offset-md-3 col-md-6">
+    <div class="card mb-3">
+      <div class="card-header d-flex flex-row align-items-center">
+      <%= link_to program_path(@program), class: "btn btn-outline-secondary me-4" do %>
+        <i class="fa-solid fa-angle-left"></i>  
+      <% end %>
+      <h5 class="mb-0">Edit Program</h5>
+      </div>
 
-<%= render "form", program: @program %>
-
-<br>
-
-<div>
-  <%= link_to "Show this program", @program %> |
-  <%= link_to "Back to programs", programs_path %>
+      <div class="card-body">
+        <%= render "form", program: @program %>
+      </div>
+    </div>
+  </div>
 </div>

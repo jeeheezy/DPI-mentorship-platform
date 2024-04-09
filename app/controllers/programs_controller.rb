@@ -31,17 +31,30 @@ class ProgramsController < ApplicationController
 
   # POST /programs or /programs.json
   def create
-    @program = Program.new(program_params)
-    @program.owner_id = current_user.id
-    respond_to do |format|
-      if @program.save
-        format.html { redirect_to program_url(@program), notice: "Program was successfully created." }
-        format.json { render :show, status: :created, location: @program }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @program.errors, status: :unprocessable_entity }
+    Program.transaction do 
+      @program = Program.new(program_params)
+      @program.owner_id = current_user.id
+      respond_to do |format|
+        if @program.save!
+          Participation.create!(user_id: current_user.id, program_id: @program.id, role: "admin")
+          format.html { redirect_to program_url(@program), notice: "Program was successfully created." }
+          format.json { render :show, status: :created, location: @program }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @program.errors, status: :unprocessable_entity }
+        end
       end
     end
+    rescue ArgumentError => e
+      respond_to do |format|
+        format.html { redirect_to new_program_url(program_id: @program), alert: e.message }
+        format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      respond_to do |format|
+        format.html { redirect_to new_program_url(program_id: @program), status: :unprocessable_entity, alert: e.message }
+        format.json { render json: e.message, status: :unprocessable_entity }
+      end
   end
 
   # PATCH/PUT /programs/1 or /programs/1.json

@@ -1,4 +1,92 @@
-<%= form_with(model: program) do |form| %>
+<% was_validated = program.errors.any? %>
+<% form_html_options = { novalidate: true, class: "mb-3" } %>
+
+<%= form_with(model: program, html: form_html_options) do |form| %>
+  <div class="form-group">
+    <% name_was_invalid = program.errors.include?(:name) %>
+
+    <% name_class = "form-control" %>
+
+    <% if was_validated %>
+      <% if name_was_invalid %>
+        <% name_class << " is-invalid" %>
+      <% else %>
+        <% name_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%= form.label :name %>
+    <%= form.text_field :name, class: name_class, placeholder: "Enter program name", autofocus: true %>
+
+    <% if name_was_invalid %>
+      <% program.errors.full_messages_for(:name).each do |message| %>
+      <div class="invalid-feedback d-flex">
+        <%= message %>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <% description_was_invalid = program.errors.include?(:description) %>
+
+    <% description_class = "form-control" %>
+
+    <% if was_validated %>
+      <% if description_was_invalid %>
+        <% description_class << " is-invalid" %>
+      <% else %>
+        <% description_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%= form.label :description %>
+    <%= form.text_area :description, class: description_class, placeholder: "Enter program description" %>
+
+    <% if description_was_invalid %>
+      <% program.errors.full_messages_for(:description).each do |message| %>
+      <div class="invalid-feedback d-flex">
+        <%= message %>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :banner_image, style: "display:block" %>
+    <%= form.file_field :banner_image, class:"form-control" %>
+  </div>
+
+  <div class="form-group">
+    <% support_contact_was_invalid = program.errors.include?(:support_contact) %>
+
+    <% support_contact_class = "form-control" %>
+
+    <% if was_validated %>
+      <% if support_contact_was_invalid %>
+        <% support_contact_class << " is-invalid" %>
+      <% else %>
+        <% support_contact_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%= form.label :support_contact %>
+    <%= form.text_field :support_contact, class: support_contact_class, placeholder: "Enter an email address for a support contact" %>
+
+    <% if support_contact_was_invalid %>
+      <% program.errors.full_messages_for(:support_contact).each do |message| %>
+      <div class="invalid-feedback d-flex">
+        <%= message %>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= form.button class: "btn btn-outline-primary btn-block" %>
+
+
+
+<!--
   <% if program.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(program.errors.count, "error") %> prohibited this program from being saved:</h2>
@@ -14,11 +102,6 @@
   <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :owner_id, style: "display: block" %>
-    <%= form.text_field :owner_id %>
   </div>
 
   <div>
@@ -40,3 +123,4 @@
     <%= form.submit %>
   </div>
 <% end %>
+-->

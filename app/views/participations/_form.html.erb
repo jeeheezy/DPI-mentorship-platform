@@ -13,11 +13,11 @@
 
   <%# TODO how can I make this enforceable %>
   <%= form.hidden_field :program_id %>
-  <%= form.hidden_field :user_id %>
 
   <div>
-    <%= form.label :role, style: "display: block" %>
-    <%= form.select :role, options_for_select(Participation.roles), prompt: "Choose a role" %>
+    <%= form.label :role, "I am joining as a ...", style: "display: block" %>
+    <%# TODO allow admin as an option later for admins to add other admins %>
+    <%= form.select :role, options_for_select(Participation.roles.except(:admin).keys.map { |role| [role.titleize, role] }), prompt: "Choose a role" %>
   </div>
 
   <%= form.label :pairings, "How many mentees are you willing to mentor?", style: "display: block" %>

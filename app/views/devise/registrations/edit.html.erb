@@ -219,6 +219,37 @@
           </div>
           <!-- Devise Input for preferred_timezone end -->
 
+          <div class="form-group">
+            <% current_password_was_invalid = resource.errors.include?(:current_password) %>
+
+            <% current_password_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if current_password_was_invalid %>
+                <% current_password_class << " is-invalid" %>
+              <% else %>
+                <% current_password_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <%= f.label :current_password %>
+
+            <%= f.password_field :current_password, class: current_password_class, autocomplete: "off" %>
+
+            <% if current_password_was_invalid %>
+              <% resource.errors.full_messages_for(:current_password).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+
+            <small class="form-text text-muted">
+              Current password is required to confirm any changes.
+            </small>
+          </div>
+
+
           <%= f.button class: "btn btn-outline-primary btn-block" %>
 
           <hr>

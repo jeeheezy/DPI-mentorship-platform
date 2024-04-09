@@ -1,9 +1,18 @@
 <div id="<%= dom_id participation %>">
   <% participating_user = participation.user %>
   <div class="card clickable-card">
-    <div class="card-body clickable" onclick="location.href='<%= user_path(participating_user.id) %>'">
-      <h5 class="card-title"><%= participating_user.first_name %></h5>
-      <p class="card-text"><%= participating_user.bio.truncate_words(10) %></p>
+    <div class="card-body clickable d-flex flex-row align-items-center" onclick="location.href='<%= user_path(participating_user.id) %>'">
+      <div class="me-3">
+        <% if participating_user.profile_picture.attached? %>
+          <%= image_tag(participating_user.profile_picture, class:"rounded-circle", height: 75, width: 75) %>
+        <% else %>
+          <%= image_tag "empty_profile_pic.webp", alt:"Empty Profile Picture Logo", class:"rounded-circle", width:"75", height:"75" %>
+        <% end %>
+      </div>
+      <div>
+        <h5 class="card-title"><%= participating_user.first_name %> <%= participating_user.last_name %></h5>
+        <p class="card-text"><%= participating_user.bio.truncate_words(10) %></p>
+      </div>
     </div>
     <div class="card-footer">
       Email:
