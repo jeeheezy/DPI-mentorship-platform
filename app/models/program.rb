@@ -27,7 +27,7 @@ class Program < ApplicationRecord
   # currently doesn't seem to support HEIC files, will need to look into that
 
   belongs_to :owner, class_name: "User"
-  has_many :participations
+  has_many :participations, dependent: :destroy
 
   has_many :participants, through: :participations, source: :user
 

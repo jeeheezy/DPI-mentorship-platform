@@ -1,5 +1,6 @@
 class ProgramsController < ApplicationController
   before_action :set_program, only: %i[ show edit update destroy]
+  before_action { authorize(@program || Program)}
 
   # GET /programs or /programs.json
   def index
