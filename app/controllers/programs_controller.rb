@@ -52,7 +52,7 @@ class ProgramsController < ApplicationController
       end
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
-        format.html { redirect_to new_program_url(program_id: @program), status: :unprocessable_entity, alert: e.message }
+        format.html { render :new, status: :unprocessable_entity, alert: e.message }
         format.json { render json: e.message, status: :unprocessable_entity }
       end
   end
