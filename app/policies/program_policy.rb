@@ -23,7 +23,11 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def update?
-    (user == record.owner) || program_admin?
+    if user_in_program?
+      (user == record.owner) || program_admin?
+    else
+      false
+    end
   end
 
   def edit?
@@ -31,12 +35,19 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def destroy?
-    update?
+    if user_in_program?
+      (user == record.owner) || program_admin?
+    else
+      false
+    end
   end
 
   private
+  def user_in_program?
+    user.participations.where(program_id: record.id).any?
+  end
 
   def program_admin?
-    user.participations.where(program_id: record.id).first.role == "admin"
+    user.participations.find_by(program_id: record.id).role == "admin"
   end
 end

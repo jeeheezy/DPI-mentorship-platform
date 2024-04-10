@@ -1,5 +1,6 @@
 class ParticipationsController < ApplicationController
   before_action :set_participation, only: %i[ show edit update destroy ]
+  before_action { authorize(@participation||Participation) }
 
   # GET /participations or /participations.json
   def index
