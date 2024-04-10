@@ -1,6 +1,63 @@
-<div class="container">
-  Tentative Landing Page Content
+<div class="hero-image-container">
+  <%= image_tag("dpi_building.jpeg", class:"hero-image object-fit-cover", alt:"DPI Building") %>
+  <div class="hero-text">
+    <h7>Pritzker Tech Talent Labs /</h7>
+    <h1>Full-Stack Developer Apprentice Mentorships</h1>
+  </div>
 </div>
+<div class="blue-background">
+  <div class="container blue-background-text">
+    <h4>A Core Part of Software Development Apprenticeship Program</h4>
+    <hr>
+    <p>DPI’s Full Stack Software Development Apprenticeship Program works with corporations to identify and train tech talent in both technical skills and soft skills to fill critical roles in the Chicagoland area. 
+    Mentorship plays a vital role in improving these skills and helping a trainee grow personally and professionally.</p>
+    <h5 class="mt-5 mb-3">Interested in joining as a mentor or mentee?</h5>
+    <%= link_to "Sign Up Now", new_user_registration_path, class:"btn btn-success btn-lg" %>
+  </div>
+</div>
+<div class="bg-body-secondary py-5">
+  <div class="container">
+    <h3 class="text-center mb-5">Through 1-on-1 mentoring, trainees will: </h3>
+    <div class="row row-cols-1 row-cols-md-3">
+      <div class="col mb-3">
+        <div class="d-flex flex-column card to-be-replaced text-white align-items-center py-4 px-4">
+          <h5 class="card-title text-center"><strong>Gain New Perspective</strong></h5>
+          <ul class="px-4">
+            <li class="my-2">Hear from experiences of working professionals and what is important in real-life scenarios</li>
+            <li class="my-2">Receive industry insights and advice in navigating through challenging situations</li>
+            <li class="my-2">Challenge existing assumptions and viewpoints and foster critical thinking.</li>
+          </ul>
+          <p><i class="fa-solid fa-magnifying-glass fa-2xl text-success"></i></p>
+        </div>
+      </div>
+      <div class="col mb-3">
+        <div class="d-flex flex-column card to-be-replaced text-white align-items-center py-4 px-4">
+          <h5 class="card-title text-center"><strong>Develop Skills</strong></h5>
+          <ul class="px-4">
+            <li class="my-2">Refine skills for effective communication, both verbal and nonverbal</li>
+            <li class="my-2">Practice networking, fostering stronger interpersonal connections, and navigating social dynamics </li>
+            <li class="my-2">Discuss relevant tech stacks and the best ways to apply them</li>
+          </ul>
+          <p><i class="fa-solid fa-comments fa-2xl text-success"></i></p>
+        </div>
+      </div>
+      <div class="col mb-3">
+        <div class="d-flex flex-column card to-be-replaced text-white align-items-center py-4 px-4">
+          <h5 class="card-title text-center"><strong>Receive Personal Feedback</strong></h5>
+          <ul class="px-4">
+            <li class="my-2">Absorb constructive criticisms on portfolio, LinkedIn profile, self-introductions, etc.</li>
+            <li class="my-2">Evaluate self-confidence, assertiveness, and self-advocacy skills, and use them to develop a strong personal branding</li>
+            <li class="my-2">Try out different styles of interpersonal interactions and delivery of your story</li>
+          </ul>
+          <p><i class="fa-solid fa-file-pen fa-2xl text-success"></i></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 # Design and Professionalism: Does the landing page present a professional and appealing design, utilizing a consistent color scheme, typography, and high-quality images/graphics to create a positive first impression?
 # Clear Value Proposition and Audience Targeting: Is the value proposition prominently displayed, clearly explaining who the app is for, what problem it solves, and why it's beneficial to the target audience?

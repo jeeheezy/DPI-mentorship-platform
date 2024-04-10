@@ -8,7 +8,6 @@
   </div>
   <div class="card-footer">
     Program owner: 
-    <%= image_tag(program.owner.profile_picture, class:"rounded-circle") if program.owner.profile_picture.attached? %>
     <%= link_to "#{program.owner.first_name} #{program.owner.last_name}", user_path(program.owner.id), class:"card-link" %>
   </div>
   <div class="card-footer">
