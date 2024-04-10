@@ -24,12 +24,16 @@
           <i class="fa-solid fa-trash"></i>  
         </button>
       </div>
-      <%= link_to program_rankings_index_path(@program), class:"btn btn-outline-secondary" do %>
-        Create Pairings <i class="fa-solid fa-people-group"></i>
-      <% end %>
-      <%= link_to new_participation_path(program_id: @program.id), class:"btn btn-outline-secondary mt-2" do %>
+      <div>
+        <%= link_to program_rankings_index_path(@program), class:"btn btn-outline-secondary" do %>
+          Manage Members / Pairings <i class="fa-solid fa-people-group"></i>
+        <% end %>
+      </div>
+      <div class="mt-2">
+      <%= link_to new_participation_path(program_id: @program.id), class:"btn btn-outline-secondary" do %>
         Join Program
       <% end %>
+      </div>
     </div>
   </div>
 
