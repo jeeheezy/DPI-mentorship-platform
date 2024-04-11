@@ -43,7 +43,7 @@
 
   <% current_user_participation = current_user.participations.find_by(program_id: @program.id) %>
 
-  <% if current_user_participation.admin? || current_user_participation.mentee? %>
+  <% if current_user_participation&.admin? || current_user_participation&.mentee? %>
   <div class="container mt-3">
     <h3>Mentors (<%= @mentors.count %>)</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
@@ -56,7 +56,7 @@
   </div>
   <% end %>
 
-  <% if current_user_participation.admin? || current_user_participation.mentor? %>
+  <% if current_user_participation&.admin? || current_user_participation&.mentor? %>
   <div class="container mt-3">
     <h3>Mentees (<%= @mentees.count %>)</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
