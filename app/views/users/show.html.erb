@@ -11,11 +11,11 @@
       <div class="d-flex flex-column flex-md-row align-items-md-center">
         <div class="me-3 me-sm-5">
           <h4><%= @user.first_name%> <%= @user.last_name %></h4>
-          <p class="mb-1">
+          <p class="mb-2">
             <i class="fa-solid fa-envelope"></i>
             Email: <%= @user.email %>
           </p>
-          <p class="mb-1">
+          <p class="mb-2">
             <i class="fa-solid fa-earth-americas"></i>
             Preferred Timezone: <%= @user.preferred_timezone%>
           </p>
@@ -23,10 +23,14 @@
             Member Since: <%= @user.created_at.strftime("%B, %Y") %>
           </p>
         </div>
-        <div>
-          <%= link_to "Edit Profile", edit_user_registration_path(@user), class: "btn btn-outline-secondary mb-2" %>
-          <%= button_to "Cancel Account", registration_path(@user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class:"btn btn-outline-danger" %>
-        </div>
+        <% if policy(@user).update? %>
+          <div class="d-flex flex-column">
+            <%= link_to "Edit Profile", edit_user_registration_path(@user), class: "btn btn-outline-secondary mb-2" %>
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+              Cancel Account
+            </button>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="col-sm-8 offset-sm-2">
@@ -62,6 +66,25 @@
         </table>
       </div>
     <% end %>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteUserModalLabel">Cancel Account?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to cancel your account? All associated data will be lost.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <%= button_to "Cancel Account", registration_path(@user), method: :delete, class:"btn btn-danger" %>
+      </div>
+    </div>
   </div>
 </div>
 

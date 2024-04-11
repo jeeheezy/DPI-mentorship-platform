@@ -48,6 +48,6 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def program_admin?
-    user.participations.find_by(program_id: record.id).role == "admin"
+    user.participations.find_by(program_id: record.id).admin?
   end
 end

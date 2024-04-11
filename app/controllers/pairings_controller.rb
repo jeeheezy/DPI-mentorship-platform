@@ -1,5 +1,6 @@
 class PairingsController < ApplicationController
   before_action :set_pairing, only: %i[ show edit update destroy ]
+  before_action { authorize(@pairing || Pairing) }
 
   # GET /pairings or /pairings.json
   def index
@@ -42,7 +43,7 @@ class PairingsController < ApplicationController
         format.html { redirect_to program_rankings_index_url(@pairing.program), notice: "Pairing was successfully updated." }
         format.json { render :show, status: :ok, location: @pairing }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { redirect_to program_rankings_index_url(@pairing.program), status: :unprocessable_entity, alert: @pairing.errors.full_messages[0] }
         format.json { render json: @pairing.errors, status: :unprocessable_entity }
       end
     end
@@ -53,10 +54,11 @@ class PairingsController < ApplicationController
     @pairing.destroy
 
     respond_to do |format|
-      format.html { redirect_to pairings_url, notice: "Pairing was successfully destroyed." }
+      format.html { redirect_to program_rankings_index_url(@pairing.program), notice: "Pairing was successfully destroyed." }
       format.json { head :no_content }
     end
   end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.

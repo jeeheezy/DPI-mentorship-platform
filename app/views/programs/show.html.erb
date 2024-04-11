@@ -16,27 +16,34 @@
       <p><strong>About the program: </strong><%= @program.description %></p>
     </div>
     <div class="ps-md-2">
-      <div class="d-flex flex-column flex-md-row gap-2 mb-2 align-items-start">
-        <%= link_to edit_program_path(@program), class: "btn btn-outline-success" do %>
-          <i class="fa-solid fa-pen-to-square"></i>
-        <% end %>
-        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-          <i class="fa-solid fa-trash"></i>  
-        </button>
-      </div>
-      <div>
-        <%= link_to program_rankings_index_path(@program), class:"btn btn-outline-secondary" do %>
-          Manage Members / Pairings <i class="fa-solid fa-people-group"></i>
-        <% end %>
-      </div>
-      <div class="mt-2">
-      <%= link_to new_participation_path(program_id: @program.id), class:"btn btn-outline-secondary" do %>
-        Join Program
+      <% if policy(@program).update? %>
+        <div class="d-flex flex-column flex-md-row gap-2 mb-2 align-items-start">
+          <%= link_to edit_program_path(@program), class: "btn btn-outline-success" do %>
+            <i class="fa-solid fa-pen-to-square"></i>
+          <% end %>
+          <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <i class="fa-solid fa-trash"></i>  
+          </button>
+        </div>
+        <div class="mb-2">
+          <%= link_to program_rankings_index_path(@program), class:"btn btn-outline-secondary" do %>
+            Manage Members / Pairings <i class="fa-solid fa-people-group"></i>
+          <% end %>
+        </div>
       <% end %>
-      </div>
+      <% unless current_user.participations.where(program_id: @program.id).any? %>
+        <div>
+        <%= link_to new_participation_path(program_id: @program.id), class:"btn btn-outline-secondary" do %>
+          Join Program
+        <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 
+  <% current_user_participation = current_user.participations.find_by(program_id: @program.id) %>
+
+  <% if current_user_participation.admin? || current_user_participation.mentee? %>
   <div class="container mt-3">
     <h3>Mentors (<%= @mentors.count %>)</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
@@ -47,7 +54,9 @@
       <% end %>
     </div>
   </div>
+  <% end %>
 
+  <% if current_user_participation.admin? || current_user_participation.mentor? %>
   <div class="container mt-3">
     <h3>Mentees (<%= @mentees.count %>)</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
@@ -58,6 +67,7 @@
       <% end %>
     </div>
   </div>
+  <%end %>
 </div>
 
 <!-- leaving some weird white space unless I set html height:100% or body height:100vh -->

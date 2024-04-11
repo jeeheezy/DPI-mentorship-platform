@@ -33,8 +33,10 @@ class Pairing < ApplicationRecord
   private
 
   def same_program
-    unless mentor.program == mentee.program
-      errors.add(:base, 'A pairing cannot be made outside program')
+    unless mentee == nil
+      unless mentor.program == mentee.program
+        errors.add(:base, 'A pairing cannot be made outside program')
+      end
     end
   end
 end
