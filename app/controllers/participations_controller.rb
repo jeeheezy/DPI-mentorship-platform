@@ -27,6 +27,12 @@ class ParticipationsController < ApplicationController
     Participation.transaction do 
       @participation = Participation.new(participation_params.except(:pairings))
       @participation.user_id = current_user.id
+      if participation_params[:role] == "admin"
+        program = participation_params[:program_id]
+        unless Participation.find_by(program_id: program, user_id:current_user.id).admin?
+          raise ArgumentError, "You cannot set an admin if you are not an admin"
+        end
+      end
       respond_to do |format|
         if @participation.save!
           if @participation.mentor?
@@ -65,6 +71,12 @@ class ParticipationsController < ApplicationController
   # determine number of current pairings that was stated by user to be shown on field
   def update
     Participation.transaction do
+      if participation_params[:role] == "admin"
+        program = participation_params[:program_id]
+        unless Participation.find_by(program_id: program, user_id:current_user.id).admin?
+          raise ArgumentError, "You cannot set an admin if you are not an admin"
+        end
+      end
       if participation_params[:role]!= "mentor"
         # is it better to loop through and do destroy! ?
         @participation.pairings_as_mentors.destroy_all
@@ -92,7 +104,7 @@ class ParticipationsController < ApplicationController
       end
       respond_to do |format|
         if @participation.update!(participation_params.except(:pairings))
-          format.html { redirect_to program_url(@participation.program), notice: "You have successfully joined this program." }
+          format.html { redirect_to program_rankings_index_url(@participation.program), notice: "Participation was successfully updated." }
           format.json { render :show, status: :ok, location: @participation }
         else
           format.html { render :edit, status: :unprocessable_entity }
