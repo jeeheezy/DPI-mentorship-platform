@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @pairing %>
+
+<div>
+  <%= link_to "Edit this pairing", edit_pairing_path(@pairing) %> |
+  <%= link_to "Back to pairings", pairings_path %>
+
+  <%= button_to "Destroy this pairing", @pairing, method: :delete %>
+</div>

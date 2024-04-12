@@ -1,0 +1,118 @@
+<div class="hero-image-container">
+  <%= image_tag @program.banner_image, class:"hero-image" if @program.banner_image.attached?%>
+  <div class="hero-text">
+    <h1><%= @program.name%></h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="container d-flex flex-row justify-content-between my-5">
+    <div class="pe-md-2">
+    <%= link_to programs_path, class: "btn btn-outline-secondary" do %>
+      <i class="fa-solid fa-angle-left"></i>  
+    <% end %>
+    </div>
+    <div class="px-2 px-sm-4 px-md-5">
+      <p><strong>About the program: </strong><%= @program.description %></p>
+    </div>
+    <div class="ps-md-2">
+      <% if policy(@program).update? %>
+        <div class="d-flex flex-column flex-md-row gap-2 mb-2 align-items-start">
+          <%= link_to edit_program_path(@program), class: "btn btn-outline-success" do %>
+            <i class="fa-solid fa-pen-to-square"></i>
+          <% end %>
+          <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <i class="fa-solid fa-trash"></i>  
+          </button>
+        </div>
+        <div class="mb-2">
+          <%= link_to program_rankings_index_path(@program), class:"btn btn-outline-secondary" do %>
+            Manage Members / Pairings <i class="fa-solid fa-people-group"></i>
+          <% end %>
+        </div>
+      <% end %>
+      <% unless current_user.participations.where(program_id: @program.id).any? %>
+        <div>
+        <%= link_to new_participation_path(program_id: @program.id), class:"btn btn-outline-secondary" do %>
+          Join Program
+        <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% current_user_participation = current_user.participations.find_by(program_id: @program.id) %>
+
+  <% if current_user_participation&.admin? || current_user_participation&.mentee? %>
+  <div class="container mt-3">
+    <h3>Mentors (<%= @mentors.count %>)</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+      <% @mentors.each do |mentor| %>
+        <div class="col mb-4">
+          <%= render partial: "participations/participation", locals: { participation: mentor, id: mentor.id } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+
+  <% if current_user_participation&.admin? || current_user_participation&.mentor? %>
+  <div class="container mt-3">
+    <h3>Mentees (<%= @mentees.count %>)</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+      <% @mentees.each do |mentee| %>
+        <div class="col mb-4">
+          <%= render partial: "participations/participation", locals: { participation: mentee, id: mentee.id } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <%end %>
+</div>
+
+<!-- leaving some weird white space unless I set html height:100% or body height:100vh -->
+<% if @participation&.mentee? %>
+<div class="sticky-bottom bg-body-secondary">
+  <div class="container">
+    <%if @participation.rankings.count == 0 %>
+      <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
+        <div id="rankings" class= "d-flex flex-column gap-1 gap-md-4 flex-md-row justify-content-around">
+          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
+        </div>
+        <%= button_tag :submit, class:"btn btn-outline-secondary mt-3 mt-lg-0 ms-md-3" do %>
+          Create Rankings <i class="fa-solid fa-right-long"></i>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= form_tag program_update_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
+        <div id="rankings" class= "d-flex flex-column gap-1 gap-md-4 flex-md-row justify-content-around">
+          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
+        </div>
+        <%= button_tag :submit, class:"btn btn-outline-secondary mt-3 mt-lg-0 ms-md-3" do %>
+          Update Rankings <i class="fa-solid fa-right-long"></i>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete program?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the program? All associated participations, rankings, and pairings will be destroyed.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <%= button_to "Delete Program", program_path(@program), method: :delete, class:"btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg bg-body-secondary">
+<!-- TODO change color of navbar to better fit with DPI color scheme -->
+  <div class="container">
+    <%= link_to image_tag("dpi_logo.webp", alt: "DPI Logo", class: "navbar-brand mt-4", width:"200"), root_path %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end mx-3" id="navbarSupportedContent">
+      <% if user_signed_in? %>
+        <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Programs", programs_path, class: "nav-link" %>
+        </li>
+        <li>
+          <%= link_to " My Mentors/Mentees", pairings_path, class: "nav-link" %>
+        </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= current_user.first_name %>
+            </a>
+            <div class="dropdown-menu">
+              <%= link_to 'My Profile', user_path(current_user.id), class:"dropdown-item" %>
+              <%= link_to 'Sign out', destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+            </div>
+            <!-- TODO alter dropdown size or add more padding so on smaller screen size dropdown isn't covered-->
+          </li>
+        </ul>
+      <% else %>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= link_to 'Sign in', new_user_session_path, class:"nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign up', new_user_registration_path, class:"nav-link" %>
+          </li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+</nav>

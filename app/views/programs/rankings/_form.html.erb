@@ -1,0 +1,7 @@
+<%= form_with(model: pairing) do |form| %>
+  <div class="d-flex flex-row gap-2">
+    <% previous_value = pairing.mentee_id %>
+    <%= form.select "mentee_id", options_for_select(mentee_options(program), [previous_value]), { include_blank: "Select mentee" }, class:"form-select"%>
+    <%= form.submit "Pair", class: "btn btn-outline-secondary"%>
+  </div>
+<% end %>

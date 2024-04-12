@@ -1,0 +1,16 @@
+<div class="row my-4">
+  <div class="offset-md-3 col-md-6">
+    <div class="card">
+      <div class="card-header d-flex flex-row align-items-center">
+      <%= link_to program_rankings_index_path(@participation.program), class: "btn btn-outline-secondary me-4" do %>
+        <i class="fa-solid fa-angle-left"></i>  
+      <% end %>
+      <h5 class="mb-0">Edit Participation</h5>
+      </div>
+
+      <div class="card-body">
+        <%= render "form", participation: @participation %>
+      </div>
+    </div>
+  </div>
+</div>

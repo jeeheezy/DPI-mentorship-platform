@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @participation %>
+
+<div>
+  <%= link_to "Edit this participation", edit_participation_path(@participation) %> |
+  <%= link_to "Back to participations", participations_path %>
+
+  <%= button_to "Destroy this participation", @participation, method: :delete %>
+</div>

@@ -1,0 +1,41 @@
+<% was_validated = participation.errors.any? %>
+<% form_html_options = { novalidate: true } %>
+
+<%= form_with(model: participation) do |form| %>
+
+  <%# TODO how can I make this enforceable %>
+  <%= form.hidden_field :program_id %>
+
+  <div class="form-group mb-3">
+    <% role_was_invalid = participation.errors.include?(:role) %>
+
+    <% role_class = "form-select" %>
+
+    <% if was_validated %>
+      <% if role_was_invalid %>
+        <% role_class << " is-invalid" %>
+      <% else %>
+        <% role_class << " is-valid" %>
+      <% end %>
+    <% end %>
+    <%= form.label :role, "I am joining as a ..." %>
+    <%# TODO allow admin as an option later for admins to add other admins %>
+    <%= form.select :role, options_for_select(Participation.roles.except(:admin).keys.map { |role| [role.titleize, role] }, selected: participation.role), { prompt: "Choose a role" }, class: role_class %>
+    <% if role_was_invalid %>
+      <% resource.errors.full_messages_for(:role).each do |message| %>
+        <div class="invalid-feedback d-flex">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-group mb-3">
+  <%= form.label :pairings, "How many mentees are you willing to mentor?", style: "display: block" %>
+  <%= form.number_field :pairings, value: @participation.pairings_as_mentors.count , min: 1, max: 3, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn btn-outline-primary" %>
+  </div>
+<% end %>

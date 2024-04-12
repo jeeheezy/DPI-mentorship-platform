@@ -1,0 +1,79 @@
+<div>
+  <div id="<%= dom_id participation %>">
+    <% participating_user = participation.user %>
+    <div class="card clickable-card card-min-width my-2">
+      <div class="card-body">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <h5 class="me-1 me-sm-2"><%= participating_user.first_name %> <%= participating_user.last_name%></h5>
+          <div class="d-flex flex-column flex-md-row gap-2">
+            <%= link_to edit_participation_path(participation), class: "btn btn-outline-success" do %>
+              <i class="fa-solid fa-pen-to-square"></i>
+            <% end %>
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteParticipation<%= participation.id %>Modal">
+              <i class="fa-solid fa-trash"></i>  
+            </button>
+          </div>
+        </div>
+        <% rankings = participation.rankings %>
+        <% rankings.each do |ranking| %>
+          <p class="my-2">Rank <%= ranking.rank %>: <%= ranking.recipient.first_name%></p>
+        <% end %>
+      </div>
+      <% if participation.mentor? %>
+        <% current_pairings = participation.pairings_as_mentors.where.not(mentee_id: nil) %>
+        <% if current_pairings.count > 0 %>
+          <div class="card-footer">
+            Current mentees: 
+            <% current_pairings.each_with_index do |pairing, i| %>
+              <% if i > 0 %>
+              |
+              <% end %>
+              <%= pairing.mentee_user.first_name %> 
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="card-footer">
+        Available mentee spots left: <%= participation.pairings_as_mentors.where(mentee_id: nil).count %>
+        </div>
+
+        <div class="card-footer">
+          <% pairings = participation.pairings_as_mentors.order(mentee_id: :asc) %>
+          <% pairings.each do |pairing| %>
+            <%= render partial: "programs/rankings/form", locals: { pairing: pairing, program: program } %>
+            <%= button_to "Delete Availability", pairing, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn w-100 btn-outline-danger my-2" %>
+          <%# using windows alert for this instead of modal because pair could be nil and can't put modal expansion div into html conditionally %>
+          <% end %>
+
+        </div>
+      <% end %>
+      <% if participation.mentee? %>
+        <% pairing = participation.pairings_as_mentees.first %>
+        <% if pairing != nil %>
+          <div class="card-footer">
+            Mentor: <%= pairing.mentor_user.first_name %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteParticipation<%= participation.id %>Modal" tabindex="-1" aria-labelledby="deleteParticipation<%= participation.id %>ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteParticipation<%= participation.id %>ModalLabel">Delete Participation?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the participation? All associated rankings and pairings will be destroyed.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <%= button_to "Delete Participation", participation_path(participation), method: :delete, class:"btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+</div>

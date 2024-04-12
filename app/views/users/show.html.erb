@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row">
+    <div class="d-flex flex-row justify-content-around align-items-center my-5 col-sm-8 offset-sm-2">
+      <div class="img-div me-3">
+      <% if @user.profile_picture.attached? %>
+        <%= image_tag @user.profile_picture, class:"rounded-circle img-fluid" %>
+      <% else %>
+        <%= image_tag "empty_profile_pic.webp", alt:"Empty Profile Picture Logo", class:"rounded-circle img-fluid" %>
+      <% end %>
+      </div>
+      <div class="d-flex flex-column flex-md-row align-items-md-center">
+        <div class="me-3 me-sm-5">
+          <h4><%= @user.first_name%> <%= @user.last_name %></h4>
+          <p class="mb-2">
+            <i class="fa-solid fa-envelope"></i>
+            Email: <%= @user.email %>
+          </p>
+          <p class="mb-2">
+            <i class="fa-solid fa-earth-americas"></i>
+            Preferred Timezone: <%= @user.preferred_timezone%>
+          </p>
+          <p>
+            Member Since: <%= @user.created_at.strftime("%B, %Y") %>
+          </p>
+        </div>
+        <% if policy(@user).update? %>
+          <div class="d-flex flex-column">
+            <%= link_to "Edit Profile", edit_user_registration_path(@user), class: "btn btn-outline-secondary mb-2" %>
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+              Cancel Account
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-8 offset-sm-2">
+      <div class="container">
+        <p class="mx-lg-5"><%= @user.bio %></p>
+      <div>
+    </div>
+
+    <% user_programs = @user.involved_programs %>
+    <% if user_programs.any? %>
+      <div class="col-sm-10 offset-sm-1 mt-4">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Program</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% user_programs.each do |program| %>
+              <tr>
+                <td><%= program.name %></td>
+                <td><%= @user.participations.where(program_id: program.id).first.role.titleize %></td>
+                <td>
+                  <%= link_to program_path(program), class: "link-underline link-underline-opacity-0" do %>
+                    Details <i class="fa-solid fa-angle-right"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteUserModalLabel">Cancel Account?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to cancel your account? All associated data will be lost.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <%= button_to "Cancel Account", registration_path(@user), method: :delete, class:"btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TODO 
+add in actual user details, 
+don't show to anyone unless they are participants in the same program,
+maybe derive method to check if user is in the same program as other user to use in other situations
+-->

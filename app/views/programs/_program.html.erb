@@ -1,0 +1,19 @@
+<div class="card clickable-card">
+  <div class="clickable" onclick="location.href='<%= program_path(program.id) %>'">
+    <%= image_tag(program.banner_image, class:"card-img-top object-fit-cover", alt:"#{program.name} banner_image", height: "70rem") if program.banner_image.attached? %>
+  </div>
+  <div class="card-body clickable" onclick="location.href='<%= program_path(program.id) %>'">
+    <h5 class="card-title"><%= program.name %></h5>
+    <p class="card-text"><%= program.description.truncate_words(10) %></p>
+  </div>
+  <div class="card-footer">
+    Program owner: 
+    <%= link_to "#{program.owner.first_name} #{program.owner.last_name}", user_path(program.owner.id), class:"card-link" %>
+  </div>
+  <div class="card-footer">
+    Support contact:
+    <%= mail_to "#{program.support_contact}", "#{program.support_contact}", subject: "Questions/Support regarding #{program.name}", encode: "true", class: "card-link" %>
+  </div>
+</div>
+
+
