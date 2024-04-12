@@ -85,6 +85,6 @@ test:
 #
 production:
   <<: *default
-  database: rails_template_production
+  database: mentorship-platform-production
   username: rails_template
   password: <%= ENV["RAILS_TEMPLATE_DATABASE_PASSWORD"] %>
