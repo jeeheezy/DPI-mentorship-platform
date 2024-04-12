@@ -14,11 +14,19 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
-    
+  def after_sign_in_path_for(resource)
+    programs_path
+  end  
+
   private
     def user_not_authorized
       flash[:alert] = "You are not authorized to perform this action."
       redirect_back fallback_location: root_url
+    end
+
+    def record_not_found
+      render 'shared/record_not_found', status: :not_found
     end
 end
