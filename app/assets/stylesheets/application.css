@@ -65,6 +65,17 @@
     min-width: 12.5rem;
 }
 
+.role-cards:hover {
+    cursor: pointer;
+    background-color: #2db676;
+    color: white;
+}
+
+.chosen-role {
+    background-color: #198754;
+    color: white;
+}
+
 .blue-background {
     background-color: rgba(18,39,102,255);
     padding: 2rem 0;
