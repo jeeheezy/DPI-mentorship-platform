@@ -14,6 +14,8 @@
     </div>
     <div class="px-2 px-sm-4 px-md-5">
       <p><strong>About the program: </strong><%= @program.description %></p>
+      <p><strong>Contact Support: </strong><%= mail_to "#{@program.support_contact}", "#{@program.support_contact}", subject: "Questions/Support regarding #{@program.name}", encode: "true" %></p>
+      <p>There are currently <strong><%= (@mentors.count + @mentees.count) %></strong> participants.</p>
     </div>
     <div class="ps-md-2">
       <% if policy(@program).update? %>
@@ -72,7 +74,7 @@
 
 <!-- leaving some weird white space unless I set html height:100% or body height:100vh -->
 <% if @participation&.mentee? %>
-<div class="sticky-bottom bg-body-secondary">
+<div class="fixed-bottom bg-body-secondary">
   <div class="container">
     <%if @participation.rankings.count == 0 %>
       <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
