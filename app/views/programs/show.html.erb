@@ -74,7 +74,7 @@
 
 <!-- leaving some weird white space unless I set html height:100% or body height:100vh -->
 <% if @participation&.mentee? %>
-<div class="fixed-bottom bg-body-secondary">
+<div class="sticky-bottom bg-body-secondary">
   <div class="container">
     <%if @participation.rankings.count == 0 %>
       <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
