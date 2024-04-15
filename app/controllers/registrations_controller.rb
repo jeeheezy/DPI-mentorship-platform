@@ -1,5 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
-  def update
-    redirect_to user_path(resource)
+  protected
+
+  def after_update_path_for(resource)
+    user_path(resource)
   end
 end
