@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for dpi-mentorship-platform on 2024-04-13T15:09:30-05:00
+# fly.toml app configuration file generated for dpi-mentorship-platform on 2024-04-14T13:48:08-05:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -21,10 +21,6 @@ console_command = '/rails/bin/rails console'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
 [deploy]
   release_command = "./bin/rails db:prepare"
-
-[[statics]]
-  guest_path = "/rails/public"
-  url_prefix = "/"
-
