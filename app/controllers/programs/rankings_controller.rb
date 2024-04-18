@@ -1,11 +1,7 @@
 class Programs::RankingsController < ApplicationController
-  before_action :set_program, only: %i[index create update]
+  before_action :set_program, only: %i[create update]
 	before_action :set_current_user_participation, only: %i[create update]
 	
-  def index
-    @rankings = @program.mentee_rankings
-    @participations = @program.participations
-  end
 
 	def create
     mentor_id_array = rankings_params[:mentor_id]
@@ -85,17 +81,3 @@ class Programs::RankingsController < ApplicationController
   end
 end
 
-#<ActionController::Parameters {"authenticity_token"=>"1MtXFuwt8ZwKaUWHaBQsPlT1awDD5Qsp_sWu5L6wREekzui5dFfALpH4G11EAxy5z_QzePuFxAXkkonT6_RpbQ", 
-# "ranking"=>{"0"=>{"mentor_id"=>""}, "1"=>{"mentor_id"=>""}, "2"=>{"mentor_id"=>""}, "3"=>{"mentor_id"=>""}, "4"=>{"mentor_id"=>""}}, 
-# "commit"=>"Submit Rankings", "controller"=>"programs/rankings", "action"=>"create", "program_id"=>"1"} permitted: false>
-
-# ranking = [id, id, id, id]
-# ["9", "7", "", "", ""]
-
-# array
-# for array index:
-# get ranking:
-# if ranking position and array index == 
-    # check mentor id
-        # if mentor_id different: change it
-    #

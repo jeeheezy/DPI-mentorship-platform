@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
   root "home#index"
-  # resources :rankings
   resources :pairings
   resources :participations, except: %i[index] 
   resources :programs do
-    # resources :rankings, only: %i[create destroy update]
-    get "/index" => "programs/rankings#index", as: :rankings_index
+    get "/index" => "programs/participations#index", as: :participations_index
     post "/create" => "programs/rankings#create", as: :create_rankings
     # using post here instead of patch since for create I'm scorching earth and creating anew
     post "/update" => "programs/rankings#update", as: :update_rankings

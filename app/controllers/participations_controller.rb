@@ -14,7 +14,7 @@ class ParticipationsController < ApplicationController
   # GET /participations/new
   def new
     @participation = Participation.new
-    # TODO find way to change this so program_id can't be so easily changed
+    # Currently program_id can easily be changed before create but will be a non-issue once participation is set to be invite only
     @participation.program_id = params[:program_id]
   end
 
@@ -104,7 +104,7 @@ class ParticipationsController < ApplicationController
       end
       respond_to do |format|
         if @participation.update!(participation_params.except(:pairings))
-          format.html { redirect_to program_rankings_index_url(@participation.program), notice: "Participation was successfully updated." }
+          format.html { redirect_to program_participations_index_url(@participation.program), notice: "Participation was successfully updated." }
           format.json { render :show, status: :ok, location: @participation }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -131,7 +131,7 @@ class ParticipationsController < ApplicationController
     @participation.destroy
 
     respond_to do |format|
-      format.html { redirect_to program_rankings_index_url(@program), notice: "Participation was successfully destroyed." }
+      format.html { redirect_to program_participations_index_url(@program), notice: "Participation was successfully destroyed." }
       format.json { head :no_content }
     end
   end

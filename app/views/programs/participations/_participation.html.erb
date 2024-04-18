@@ -40,7 +40,7 @@
         <div class="card-footer">
           <% pairings = participation.pairings_as_mentors.order(mentee_id: :asc) %>
           <% pairings.each do |pairing| %>
-            <%= render partial: "programs/rankings/form", locals: { pairing: pairing, program: program } %>
+            <%= render partial: "programs/participations/pairing_form", locals: { pairing: pairing, program: program } %>
             <%= button_to "Delete Availability", pairing, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn w-100 btn-outline-danger my-2" %>
           <%# using windows alert for this instead of modal because pair could be nil and can't put modal expansion div into html conditionally %>
           <% end %>

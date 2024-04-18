@@ -28,7 +28,7 @@
           </button>
         </div>
         <div class="mb-2">
-          <%= link_to program_rankings_index_path(@program), class:"btn btn-outline-secondary" do %>
+          <%= link_to program_participations_index_path(@program), class:"btn btn-outline-secondary" do %>
             Manage Members / Pairings <i class="fa-solid fa-people-group"></i>
           <% end %>
         </div>
@@ -88,7 +88,7 @@
     <% else %>
       <%= form_tag program_update_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
         <div id="rankings" class= "d-flex flex-column gap-1 gap-md-4 flex-md-row justify-content-around">
-          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
+          <%= render partial: "programs/rankings/form", locals: { rankings: @rankings, program: @program }%>
         </div>
         <%= button_tag :submit, class:"btn btn-outline-secondary mt-3 mt-lg-0 ms-md-3" do %>
           Update Rankings <i class="fa-solid fa-right-long"></i>

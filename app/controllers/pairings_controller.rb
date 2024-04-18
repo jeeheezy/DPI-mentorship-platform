@@ -40,10 +40,10 @@ class PairingsController < ApplicationController
   def update
     respond_to do |format|
       if @pairing.update(pairing_params)
-        format.html { redirect_to program_rankings_index_url(@pairing.program), notice: "Pairing was successfully updated." }
+        format.html { redirect_to program_participations_index_url(@pairing.program), notice: "Pairing was successfully updated." }
         format.json { render :show, status: :ok, location: @pairing }
       else
-        format.html { redirect_to program_rankings_index_url(@pairing.program), status: :unprocessable_entity, alert: @pairing.errors.full_messages[0] }
+        format.html { redirect_to program_participations_index_url(@pairing.program), status: :unprocessable_entity, alert: @pairing.errors.full_messages[0] }
         format.json { render json: @pairing.errors, status: :unprocessable_entity }
       end
     end
@@ -54,7 +54,7 @@ class PairingsController < ApplicationController
     @pairing.destroy
 
     respond_to do |format|
-      format.html { redirect_to program_rankings_index_url(@pairing.program), notice: "Pairing was successfully destroyed." }
+      format.html { redirect_to program_participations_index_url(@pairing.program), notice: "Pairing was successfully destroyed." }
       format.json { head :no_content }
     end
   end
