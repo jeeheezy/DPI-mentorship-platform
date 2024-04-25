@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "home#index"
   resources :pairings
-  resources :participations, except: %i[index] 
+  resources :participations, except: %i[index, show] 
   resources :programs do
     get "/index" => "programs/participations#index", as: :participations_index
     post "/create" => "programs/rankings#create", as: :create_rankings
