@@ -13,9 +13,12 @@
     <% end %>
     </div>
     <div class="px-2 px-sm-4 px-md-5">
-      <p><strong>About the program: </strong><%= @program.description %></p>
+      <p><strong>About The Program: </strong><%= @program.description %></p>
       <p><strong>Contact Support: </strong><%= mail_to "#{@program.support_contact}", "#{@program.support_contact}", subject: "Questions/Support regarding #{@program.name}", encode: "true" %></p>
       <p>There are currently <strong><%= (@mentors.count + @mentees.count) %></strong> participants.</p>
+      <% if current_user.participations.where(program_id: @program.id).any? %>
+        <p>You are currently signed up as a <strong><%= Participation.find_by(program: @program, user_id: current_user.id).role %></strong>.</p>
+      <% end %>
     </div>
     <div class="ps-md-2">
       <% if policy(@program).update? %>
@@ -28,7 +31,7 @@
           </button>
         </div>
         <div class="mb-2">
-          <%= link_to program_rankings_index_path(@program), class:"btn btn-outline-secondary" do %>
+          <%= link_to program_participations_index_path(@program), class:"btn btn-outline-secondary" do %>
             Manage Members / Pairings <i class="fa-solid fa-people-group"></i>
           <% end %>
         </div>
@@ -72,33 +75,38 @@
   <%end %>
 </div>
 
-<!-- leaving some weird white space unless I set html height:100% or body height:100vh -->
 <% if @participation&.mentee? %>
-<div class="sticky-bottom bg-body-secondary">
-  <div class="container">
-    <%if @participation.rankings.count == 0 %>
-      <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
-        <div id="rankings" class= "d-flex flex-column gap-1 gap-md-4 flex-md-row justify-content-around">
-          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
-        </div>
-        <%= button_tag :submit, class:"btn btn-outline-secondary mt-3 mt-lg-0 ms-md-3" do %>
-          Create Rankings <i class="fa-solid fa-right-long"></i>
+<div data-controller="ranking">
+  <div class="sticky-bottom bg-body-secondary">
+    <div class="container d-flex flex-column">
+      <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRanking" aria-expanded= "false" aria-controls="collapseRanking" data-ranking-target="toggleButton" data-action="click->ranking#toggleIcon">
+        <i class="fa-solid fa-angle-down" data-ranking-target="icon"></i>
+      </button>
+      <div class="collapse show" id="collapseRanking">
+      <%if @participation.rankings.count == 0 %>
+        <%= form_tag program_create_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
+          <div id="rankings" class= "d-flex flex-column gap-1 gap-md-4 flex-md-row justify-content-around">
+            <%= render partial: "programs/rankings/form", locals: { rankings: @rankings, program: @program }%>
+          </div>
+          <%= button_tag :submit, class:"btn btn-outline-secondary mt-3 mt-lg-0 ms-lg-3" do %>
+            Create Rankings <i class="fa-solid fa-right-long"></i>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= form_tag program_update_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
+          <div id="rankings" class= "d-flex flex-column gap-1 gap-md-4 flex-md-row justify-content-around">
+            <%= render partial: "programs/rankings/form", locals: { rankings: @rankings, program: @program }%>
+          </div>
+          <%= button_tag :submit, class:"btn btn-outline-secondary mt-3 mt-lg-0 ms-lg-3" do %>
+            Update Rankings <i class="fa-solid fa-right-long"></i>
+          <% end %>
         <% end %>
       <% end %>
-    <% else %>
-      <%= form_tag program_update_rankings_path(@program), class: "d-flex flex-column flex-lg-row justify-content-evenly py-3", method: :post do %>
-        <div id="rankings" class= "d-flex flex-column gap-1 gap-md-4 flex-md-row justify-content-around">
-          <%= render partial: "rankings/rankings_field", locals: { rankings: @rankings, program: @program }%>
-        </div>
-        <%= button_tag :submit, class:"btn btn-outline-secondary mt-3 mt-lg-0 ms-md-3" do %>
-          Update Rankings <i class="fa-solid fa-right-long"></i>
-        <% end %>
-      <% end %>
-    <% end %>
+      </div>
+    </div>
   </div>
+  <% end %>
 </div>
-<% end %>
-
 
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

@@ -20,7 +20,7 @@
             <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <%= current_user.first_name %>
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu dropdown-menu-lg-end">
               <%= link_to 'My Profile', user_path(current_user.id), class:"dropdown-item" %>
               <%= link_to 'Sign out', destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
             </div>

@@ -20,6 +20,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Participation < ApplicationRecord
+  include Pairable
+
   enum role: { mentor: "mentor", mentee: "mentee", admin: "admin" }
   belongs_to :program
   belongs_to :user
@@ -29,7 +31,7 @@ class Participation < ApplicationRecord
 
   has_many :rankings, foreign_key: "mentee_id", class_name: "Ranking", dependent: :destroy
   has_many :received_rankings, foreign_key: "mentor_id", class_name: "Ranking", dependent: :destroy
-
+  
   validates :user_id, uniqueness: {scope: :program_id }
-  validates :role, presence: true
+  validates :role, presence: true  
 end

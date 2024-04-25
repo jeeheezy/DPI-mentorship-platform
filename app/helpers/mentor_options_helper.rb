@@ -5,7 +5,7 @@ module MentorOptionsHelper
 	end
 
 	def mentee_options(program)
-		mentees = program.participations.where(role: "mentee")
+		mentees = program.participations.where(role: "mentee").includes([:user])
 		mentees.map { |mentee| [mentee.user.first_name, mentee.id] }
 	end
 end
