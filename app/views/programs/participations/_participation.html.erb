@@ -14,13 +14,17 @@
             </button>
           </div>
         </div>
-        <% rankings = participation.rankings %>
-        <% rankings.each do |ranking| %>
-          <p class="my-2">Rank <%= ranking.rank %>: <%= ranking.recipient.first_name%></p>
+        <% if participation.mentee? %>
+          <div>
+            <% rankings = participation.rankings %>
+            <% rankings.each do |ranking| %>
+              <p class="my-2">Rank <%= ranking.rank %>: <%= ranking.recipient.first_name%></p>
+            <% end %>
+          </div>
         <% end %>
       </div>
       <% if participation.mentor? %>
-        <% current_pairings = participation.pairings_as_mentors.where.not(mentee_id: nil) %>
+        <% current_pairings = participation.pairings_as_mentors.where.not(mentee_id: nil).includes([:mentee_user]) %>
         <% if current_pairings.count > 0 %>
           <div class="card-footer">
             Current mentees: 

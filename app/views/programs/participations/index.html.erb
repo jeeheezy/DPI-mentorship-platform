@@ -17,7 +17,7 @@
     <div class="container flex-wrap mt-3 ps-5">
       <h4>Mentee Preference Rankings</h4>
       <div class="row row-cols-1 row-cols-lg-2">
-      <% @participations.where(role: "mentee").each do |participation| %>
+      <% @participations.where(role: "mentee").includes([:rankings], {rankings: :recipient}).each do |participation| %>
         <%= render partial: "programs/participations/participation", locals: { participation: participation} %>
       <% end %>
       </div>

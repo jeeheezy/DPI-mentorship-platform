@@ -4,13 +4,13 @@ class ProgramsController < ApplicationController
 
   # GET /programs or /programs.json
   def index
-    @programs = Program.all.order(created_at: :asc)
+    @programs = Program.all.order(created_at: :asc).includes([:banner_image_attachment, :owner])
   end
 
   # GET /programs/1 or /programs/1.json
   def show
-    @mentors = @program.participations.where(role: "mentor")
-    @mentees = @program.participations.where(role: "mentee")
+    @mentors = @program.participations.where(role: "mentor").includes([:user], user: { profile_picture_attachment: :blob })
+    @mentees = @program.participations.where(role: "mentee").includes([:user], user: { profile_picture_attachment: :blob })
     @participation = @program.participations.find_by(user_id: current_user.id)
     if @participation&.mentee?
       if @participation.rankings.empty?
