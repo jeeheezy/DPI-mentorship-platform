@@ -6,8 +6,17 @@ class ParticipationPolicy < ApplicationPolicy
     @record = record
   end
 
-  # for now letting anybody join any program
+  def index?
+    program_admin?
+  end
+
   def create?
+    # only allow admin to set admin
+    if record.role == "admin"
+      program_admin?
+    end
+    
+    # for now letting anybody join any program
     true
   end
 
@@ -18,6 +27,11 @@ class ParticipationPolicy < ApplicationPolicy
   # program admin can update or delete any participations belonging to the program
   def update?
     if user_in_program?
+      # only allow admin to set admin
+      if record.role == "admin"
+        program_admin?
+      end
+      # allow users to update their own, allow admins to update any
       (user == record.user) || program_admin?
     else
       false
@@ -37,7 +51,7 @@ class ParticipationPolicy < ApplicationPolicy
   end
 
   private
-
+  
   def user_in_program?
     program = record.program
     user.participations.where(program_id: program.id).any?
