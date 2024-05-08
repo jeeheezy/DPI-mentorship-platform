@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <%# good use of partial %>
     <%= render partial: "shared/cdn_assets" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -13,7 +13,9 @@
   </head>
 
   <body>
+    <%# good use of partial %>
     <%= render partial: "shared/navbar" %>
+    <%# good use of partial %>
     <%= render "shared/flash" %>
     <%= yield %>
   </body>

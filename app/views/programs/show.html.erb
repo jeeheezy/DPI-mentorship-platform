@@ -1,3 +1,4 @@
+<%# use of partial could probably make this code more readable %>
 <div class="hero-image-container">
   <%= image_tag @program.banner_image, class:"hero-image" if @program.banner_image.attached?%>
   <div class="hero-text">
@@ -107,7 +108,7 @@
   </div>
   <% end %>
 </div>
-
+<%# this could be a partial %>
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">

@@ -1,15 +1,16 @@
 class Programs::RankingsController < ApplicationController
   before_action :set_program, only: %i[create update]
 	before_action :set_current_user_participation, only: %i[create update]
+  # Good for explaining why. Try using more concise comments.
   # since there's multiple records being created and destroyed, there's no singular Ranking record to verify and class similarly isn't useful
-  # Instead will use @current_user_participation which already has criteria for role = "mentee". 
+  # Instead will use @current_user_participation which already has criteria for role = "mentee".
   # Check returned participation is truthy (i.e. they are mentee) or falsey (i.e. find_by returned nil)
   before_action { authorize(@current_user_participation, policy_class: RankingPolicy) }
 
 	def create
     mentor_id_array = rankings_params[:mentor_id]
     non_empty_array = mentor_id_array.compact.reject(&:blank?)
-    Ranking.transaction do 
+    Ranking.transaction do
       non_empty_array.each_with_index do |mentor_id, index|
         raise ArgumentError, "The user you are trying to rank is not a mentor" unless Participation.find(mentor_id).mentor?
         rank = index + 1
@@ -76,4 +77,3 @@ class Programs::RankingsController < ApplicationController
     params.require(:ranking).permit(mentor_id:[])
   end
 end
-

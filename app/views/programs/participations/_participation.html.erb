@@ -24,6 +24,7 @@
         <% end %>
       </div>
       <% if participation.mentor? %>
+        <%# maybe this query should be in the controller? %>
         <% current_pairings = participation.pairings_as_mentors.where.not(mentee_id: nil).includes([:mentee_user]) %>
         <% if current_pairings.count > 0 %>
           <div class="card-footer">

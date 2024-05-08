@@ -5,6 +5,7 @@
   <%= form_with(model: participation) do |form| %>
 
     <%# TODO how can I make this enforceable %>
+    <%# I THINK if you fully nest participations inside program, you can fetch the program id from the params and assign it at the controller level %>
     <%= form.hidden_field :program_id %>
 
     <div class="form-group mb-3">

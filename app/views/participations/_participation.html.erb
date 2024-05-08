@@ -19,6 +19,7 @@
       <%= mail_to "#{participating_user.email}", "#{participating_user.email}", encode: "true", class: "card-link" %>
     </div>
     <% if participation.mentor? %>
+      <%# this query should probably be in the controller %>
       <% current_pairings = participation.pairings_as_mentors.where.not(mentee_id: nil).includes([:mentee_user]) %>
       <% if current_pairings.count > 0 %>
         <div class="card-footer">

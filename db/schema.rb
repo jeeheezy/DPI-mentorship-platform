@@ -41,7 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_26_160021) do
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
-
+  # I think you could have rankings in your pairings table
   create_table "pairings", force: :cascade do |t|
     t.bigint "mentor_id", null: false
     t.bigint "mentee_id"
