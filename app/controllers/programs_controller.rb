@@ -9,6 +9,7 @@ class ProgramsController < ApplicationController
 
   # GET /programs/1 or /programs/1.json
   def show
+    # I think `.where(role...)` could be a scope
     @mentors = @program.participations.where(role: "mentor").includes([:user], user: { profile_picture_attachment: :blob })
     @mentees = @program.participations.where(role: "mentee").includes([:user], user: { profile_picture_attachment: :blob })
     @participation = @program.participations.find_by(user_id: current_user.id)
@@ -32,8 +33,9 @@ class ProgramsController < ApplicationController
 
   # POST /programs or /programs.json
   def create
-    Program.transaction do 
+    Program.transaction do
       @program = Program.new(program_params)
+      # good use of current_user in controller
       @program.owner_id = current_user.id
       respond_to do |format|
         if @program.save!

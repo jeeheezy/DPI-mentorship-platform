@@ -1,3 +1,4 @@
+# nice!
 module MentorOptionsHelper
 	def mentor_options(program)
 		mentors = program.participations.where(role: "mentor")

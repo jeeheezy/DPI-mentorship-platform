@@ -11,7 +11,7 @@
     </div>
   </div>
 <% end %>
-
+<%# maybe this query should be in the controller? %>
 <% pairings_with_mentees = @pairings_as_mentors.where.not(mentee_id: nil) %>
 <% unless pairings_with_mentees.empty? %>
   <div class="container">
@@ -58,4 +58,3 @@
     <% end %>
   <% end %>
 <% end %>
-

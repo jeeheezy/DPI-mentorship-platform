@@ -1,3 +1,4 @@
+# Good use of concern! This is a good example of how to use a concern to DRY up your code.
 module Participation::Pairable
   extend ActiveSupport::Concern
 
@@ -12,10 +13,10 @@ module Participation::Pairable
   end
 
   private
-  
+
   def valid_mentor_pairing_availability
     return unless mentor?
-    
+
     availability = mentor_pairing_availability.to_i
     if availability < 1 || availability > 3
       errors.add(:mentor_pairing_availability, "must be a minimum of 1 and a maximum of 3")
@@ -28,7 +29,7 @@ module Participation::Pairable
       errors.add(:mentor_pairing_availability, "cannot be lower than the number of mentees you have already taken on. Contact support if a mentee pairing needs to be removed.")
     end
   end
-  
+
   def adjust_mentor_pairings
     return unless mentor?
 
@@ -65,7 +66,7 @@ module Participation::Pairable
       end
     end
   end
-  
+
   # If mentee is paired with mentor and that mentee's participation is later destroyed,
   # the pairing record is also destroyed because of dependent_destroy, leaving the mentor with one less pairing than their availability.
   # The following method creates a new pairing with empty mentee_id to replace the destroyed pairing record
